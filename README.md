@@ -1,94 +1,36 @@
-<div align="center">
-  <h1>🍔 Feastify - Premium Food Delivery Platform</h1>
-  <p>A full-stack, enterprise-grade food ordering experience powered by Node.js, Express, and MongoDB.</p>
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
-  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js" />
-  <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" />
-  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
-</div>
+## Getting Started
 
-<br />
+First, run the development server:
 
-### 🚀 Live Demo
-[Experience Feastify Here](https://feastify-food-web.vercel.app)
-
----
-
-## ✨ Key Features
-
-*   **🛒 AI Smart Recommendations**: A dynamic cross-selling engine that suggests related items (e.g., Coke with Biryani) directly in the cart.
-*   **📍 Geolocation Integration**: One-click address auto-fill using the Nominatim OpenStreetMap API during checkout.
-*   **📧 Automated Email Alerts**: Real-time email notifications powered by Nodemailer for new signups, order placements, and security alerts.
-*   **🔐 Enterprise-Level Security**: Secure admin dashboard with bcrypt password hashing to prevent data breaches.
-*   **📈 Real-Time Admin Dashboard**: Monitor live orders, track revenue, manage menu items, and view registered users seamlessly.
-*   **📱 Fully Responsive**: Dark-themed, premium UI that works perfectly across mobile, tablet, and desktop devices.
-
-## 🛠️ Tech Stack
-
-- **Frontend**: HTML5, CSS3, Vanilla JavaScript (Modern ES6+)
-- **Backend Proxy**: Vercel Serverless Functions (SMTP Bypass)
-- **Primary Backend**: Node.js, Express.js
-- **Database**: MongoDB (with Mongoose ODM)
-- **Security**: Bcrypt.js password hashing
-
-## 📋 Prerequisites
-
-Before you begin, ensure you have the following installed:
-- [Node.js](https://nodejs.org/) (v18.x or higher)
-- [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) Account
-
-## 🚀 Getting Started
-
-### 1. Clone the repository
 ```bash
-git clone https://github.com/Thirumalaivasan2007/Feastify-web.git
-cd Feastify-web
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### 2. Install dependencies
-```bash
-npm install
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### 3. Configuration
-Create a `.env` in the root folder with:
-```env
-PORT=3000
-MONGO_URI=your_mongodb_atlas_uri
-EMAIL_USER=your_gmail@gmail.com
-EMAIL_PASS=your_16_digit_app_password
-ADMIN_EMAIL=your_admin@example.com
-ADMIN_PASSWORD=your_secure_password
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### 4. Start the Application
-```bash
-npm start
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## 📂 Project Structure
+## Learn More
 
-```plaintext
-├── api/             # Vercel Serverless Functions (Email Proxy)
-├── models/          # Mongoose database schemas (User, Food, Category, Order)
-├── public/          # Client-side web pages, CSS styles, and UI Javascript
-├── db.js            # MongoDB database connection configuration
-├── server.js        # Main Express routing and server logic
-└── package.json     # Node script definitions and dependencies
-```
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 👨‍💻 Developed By
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-**Thirumalaivasan T**  
-*B.E. Computer Science Engineering Student & Full-Stack Developer*
+## Deploy on Vercel
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/t-thirumalai-944tv)
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://thirumalaivasan-portfolio-one.vercel.app)
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
----
-<div align="center">
-  <i>Developed with ❤️ for food lovers. Mass pannunga boss! 🚀🔥</i>
-</div>
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
