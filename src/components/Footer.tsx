@@ -96,7 +96,7 @@ export default function Footer() {
 
                     {/* Newsletter */}
                     <div>
-                        <h3 className="text-xs font-bold font-sans tracking-widest uppercase text-theme-gold mb-6">SUBSCRIBE TO OUR GAZETTE</h3>
+                        <h3 className="text-xs font-bold font-sans tracking-widest uppercase text-theme-gold mb-6">SUBSCRIBE TO OUR FEASTIFY</h3>
                         <p className="text-theme-text/60 text-sm mb-4 leading-relaxed">
                             Subscribe to receive exclusive offers, updates, and culinary news.
                         </p>
