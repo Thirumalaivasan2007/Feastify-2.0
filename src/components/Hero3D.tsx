@@ -65,7 +65,6 @@ function RotatingContainer() {
           position={[0, 0, 0.025]}
           fontSize={0.55}
           color="#d4af37"
-          font="https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PweD.woff"
           fontWeight={700}
           anchorX="center"
           anchorY="middle"
@@ -90,7 +89,6 @@ function RotatingContainer() {
           position={[0, 0, 0.025]}
           fontSize={0.55}
           color="#d4af37"
-          font="https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PweD.woff"
           fontWeight={700}
           anchorX="center"
           anchorY="middle"
