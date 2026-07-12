@@ -49,19 +49,27 @@ export default function SplashScreen() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="relative"
+                            className="relative flex items-center space-x-6 mb-8 pr-12"
                         >
-                            <h1 className="text-5xl md:text-7xl font-heading font-extrabold tracking-tight text-white mb-8">
-                                Feastify
-                            </h1>
+                            <div className="relative w-16 h-16 md:w-20 md:h-20 overflow-hidden rounded-full border border-theme-gold/40 flex items-center justify-center shrink-0">
+                                <span className="font-serif text-3xl md:text-4xl text-theme-gold">F</span>
+                            </div>
+                            <div className="flex flex-col items-start text-left">
+                                <span className="font-serif text-4xl md:text-6xl tracking-widest text-theme-gold font-semibold uppercase relative leading-none">
+                                    Feastify
+                                </span>
+                                <span className="text-xs md:text-sm tracking-[0.3em] text-theme-text/60 uppercase font-sans mt-3 leading-none">
+                                    Premium Dining
+                                </span>
+                            </div>
                             
                             {/* Minimalist Spinner */}
-                            <div className="absolute -right-12 top-0 bottom-0 flex items-center justify-center">
+                            <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center">
                                 <motion.div
                                     animate={{ rotate: 360 }}
                                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
                                 >
-                                    <Loader2 className="w-8 h-8 text-theme-gold" />
+                                    <Loader2 className="w-8 h-8 md:w-10 md:h-10 text-theme-gold" />
                                 </motion.div>
                             </div>
                         </motion.div>

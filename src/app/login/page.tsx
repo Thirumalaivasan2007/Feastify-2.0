@@ -137,9 +137,19 @@ export default function LandingPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    <h1 className="text-5xl md:text-7xl font-heading font-light tracking-tight text-white mb-6">
-                        Feastify
-                    </h1>
+                    <div className="flex items-center space-x-4 mb-8">
+                        <div className="relative w-14 h-14 md:w-16 md:h-16 overflow-hidden rounded-full border border-theme-gold/40 flex items-center justify-center shrink-0">
+                            <span className="font-serif text-2xl md:text-3xl text-theme-gold">F</span>
+                        </div>
+                        <div className="flex flex-col items-start text-left">
+                            <span className="font-serif text-3xl md:text-5xl tracking-widest text-theme-gold font-semibold uppercase relative leading-none">
+                                Feastify
+                            </span>
+                            <span className="text-[10px] md:text-xs tracking-[0.3em] text-theme-text/60 uppercase font-sans mt-2 leading-none">
+                                Premium Dining
+                            </span>
+                        </div>
+                    </div>
                     <p className="text-xl lg:text-2xl text-white/70 font-light max-w-md">
                         Experience the art of flavor, delivered straight to your door with unparalleled speed.
                     </p>

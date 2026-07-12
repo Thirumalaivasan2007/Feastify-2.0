@@ -32,11 +32,18 @@ export default function Footer() {
                     
                     {/* Brand Section */}
                     <div className="flex flex-col gap-6">
-                        <Link href="/menu" className="text-3xl font-extrabold font-heading tracking-tight text-white flex items-center gap-2">
-                            <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center shadow-[0_0_15px_rgba(212,184,134,0.4)]">
-                                <span className="text-[#040A07] font-bold text-2xl">F</span>
+                        <Link href="/menu" className="flex items-center space-x-3 group">
+                            <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden rounded-full border border-theme-gold/30 group-hover:border-theme-gold transition-colors duration-300 flex items-center justify-center shrink-0">
+                                <span className="font-serif text-base md:text-lg text-theme-gold transition-transform duration-500 scale-105 group-hover:scale-110">F</span>
                             </div>
-                            Feastify
+                            <div className="flex flex-col items-start text-left">
+                                <span className="font-serif text-xl md:text-2xl tracking-widest text-theme-gold font-semibold uppercase relative leading-none">
+                                    Feastify
+                                </span>
+                                <span className="text-[9px] md:text-[10px] tracking-[0.2em] text-theme-text/40 uppercase font-sans mt-1.5 group-hover:text-theme-text/60 transition-colors duration-300 leading-none">
+                                    Premium Dining
+                                </span>
+                            </div>
                         </Link>
                         <p className="text-theme-text/60 leading-relaxed text-sm">
                             Experience the art of flavor, delivered directly to your door. We craft premium culinary experiences for the most discerning palates.
