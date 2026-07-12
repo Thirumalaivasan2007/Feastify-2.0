@@ -1,315 +1,173 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { User, ShieldCheck, ArrowLeft, Loader2, Truck } from 'lucide-react';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, Sparkles, Zap, Utensils, Users, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 
-export default function LandingPage() {
-    const [step, setStep] = useState<'role' | 'login' | 'register'>('role');
-    const [role, setRole] = useState<'customer' | 'admin' | 'driver'>('customer');
-    const [isLoading, setIsLoading] = useState(false);
-    
-    // Parallax mouse effect
-    const mouseX = useMotionValue(0);
-    const mouseY = useMotionValue(0);
-
-    const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-    const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
-
-    const x1 = useTransform(smoothX, [0, 1000], [-30, 30]);
-    const y1 = useTransform(smoothY, [0, 1000], [-30, 30]);
-
-    const x2 = useTransform(smoothX, [0, 1000], [40, -40]);
-    const y2 = useTransform(smoothY, [0, 1000], [40, -40]);
-
-    const x3 = useTransform(smoothX, [0, 1000], [-50, 50]);
-    const y3 = useTransform(smoothY, [0, 1000], [50, -50]);
-
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            mouseX.set(e.clientX);
-            mouseY.set(e.clientY);
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-    }, [mouseX, mouseY]);
-    
-    // Form state
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
-    
+export default function UltraPremiumLanding() {
     const router = useRouter();
+    const targetRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: targetRef,
+        offset: ["start start", "end start"]
+    });
 
-    const handleRoleSelect = (selectedRole: 'customer' | 'admin' | 'driver') => {
-        setRole(selectedRole);
-        setStep('login');
-    };
-
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        try {
-            const res = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await res.json();
-            if (data.success) {
-                if (data.role !== role) {
-                    toast.error(`Unauthorized. Registered as ${data.role}.`);
-                    setIsLoading(false);
-                    return;
-                }
-                localStorage.setItem('user', JSON.stringify({ email, name: data.name, role: data.role, userId: data.userId }));
-                toast.success('Login successful!');
-                router.push(data.redirect);
-            } else {
-                toast.error(data.message || 'Login failed');
-                setIsLoading(false);
-            }
-        } catch (err) {
-            console.error(err);
-            toast.error('Connection error');
-            setIsLoading(false);
-        }
-    };
-
-    const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsLoading(true);
-        try {
-            const res = await fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
-            });
-            const data = await res.json();
-            if (data.success) {
-                localStorage.setItem('user', JSON.stringify({ email, name, role: 'customer', userId: data.userId }));
-                toast.success('Account created successfully!');
-                router.push(data.redirect);
-            } else {
-                toast.error(data.error || 'Registration failed');
-                setIsLoading(false);
-            }
-        } catch (err) {
-            console.error(err);
-            toast.error('Connection error');
-            setIsLoading(false);
-        }
-    };
+    const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    
+    // Floating elements transforms
+    const floatY1 = useTransform(scrollYProgress, [0, 1], ["0px", "-200px"]);
+    const floatY2 = useTransform(scrollYProgress, [0, 1], ["0px", "-100px"]);
+    const floatY3 = useTransform(scrollYProgress, [0, 1], ["0px", "-300px"]);
 
     return (
-        <main className="relative min-h-screen flex items-center justify-center overflow-hidden bg-theme-bg">
-            {/* Background Image & Blur Overlay */}
-            <div 
-                className="absolute inset-0 z-0 opacity-20"
-                style={{ 
-                    backgroundImage: 'url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop")',
-                    backgroundPosition: 'center',
-                    backgroundSize: 'cover',
-                    filter: 'blur(8px)'
-                }}
-            />
-            
-            {/* Parallax Floating Elements */}
-            <motion.div style={{ x: x1, y: y1 }} className="absolute top-[20%] left-[10%] z-0 pointer-events-none opacity-40 blur-[2px]">
-                <div className="w-16 h-16 bg-theme-gold/30 rounded-full"></div>
-            </motion.div>
-            <motion.div style={{ x: x2, y: y2 }} className="absolute top-[60%] left-[30%] z-0 pointer-events-none opacity-30 blur-[1px]">
-                <div className="w-8 h-8 bg-white/30 rounded-full"></div>
-            </motion.div>
-            <motion.div style={{ x: x3, y: y3 }} className="absolute top-[30%] right-[15%] z-0 pointer-events-none opacity-50 blur-[3px]">
-                <div className="w-24 h-24 border border-theme-gold/20 rounded-full"></div>
-            </motion.div>
-            <motion.div style={{ x: y1, y: x2 }} className="absolute bottom-[20%] right-[25%] z-0 pointer-events-none opacity-20">
-                <div className="w-12 h-12 bg-white/20 rounded-lg rotate-45"></div>
-            </motion.div>
-
-            <div className="z-10 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 p-8 items-center">
-                {/* Hero Side */}
+        <main ref={targetRef} className="bg-[#040A07] text-white overflow-hidden selection:bg-theme-gold selection:text-black font-sans">
+            {/* HERO SECTION */}
+            <section className="relative h-screen flex flex-col items-center justify-center pt-20">
+                {/* Parallax Background Video/Image */}
                 <motion.div 
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    style={{ y: heroY, opacity: heroOpacity }}
+                    className="absolute inset-0 z-0 pointer-events-none"
                 >
-                    <h1 className="text-6xl lg:text-8xl font-heading font-extrabold mb-6 tracking-tight">
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#040A07]/40 via-transparent to-[#040A07] z-10" />
+                    <video 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                        className="w-full h-full object-cover opacity-30 blur-sm scale-110"
+                    >
+                        <source src="https://cdn.pixabay.com/video/2020/06/15/42079-428612175_large.mp4" type="video/mp4" />
+                    </video>
+                </motion.div>
+
+                {/* Floating Abstract Elements */}
+                <motion.div style={{ y: floatY1 }} className="absolute top-[20%] left-[10%] w-64 h-64 bg-theme-gold/10 rounded-full blur-[100px] z-0 pointer-events-none" />
+                <motion.div style={{ y: floatY2 }} className="absolute bottom-[20%] right-[10%] w-96 h-96 bg-theme-gold/20 rounded-full blur-[120px] z-0 pointer-events-none" />
+                <motion.div style={{ y: floatY3 }} className="absolute top-[40%] right-[20%] w-32 h-32 bg-white/5 rounded-full blur-[40px] z-0 pointer-events-none" />
+
+                {/* Hero Content */}
+                <div className="relative z-10 text-center max-w-5xl mx-auto px-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.2 }}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 shadow-2xl"
+                    >
+                        <Sparkles className="w-5 h-5 text-theme-gold" />
+                        <span className="text-sm font-semibold tracking-widest uppercase text-white/90">The Future of Dining</span>
+                    </motion.div>
+                    
+                    <motion.h1 
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.4 }}
+                        className="text-6xl md:text-8xl lg:text-9xl font-heading font-extrabold tracking-tighter leading-[0.9] mb-8"
+                    >
                         Feastify<span className="text-theme-gold">.</span>
-                    </h1>
-                    <p className="text-xl lg:text-2xl text-white/70 font-light max-w-md">
-                        Experience the art of flavor, delivered straight to your door with unparalleled speed.
-                    </p>
-                </motion.div>
-
-                {/* Auth Side */}
+                    </motion.h1>
+                    
+                    <motion.p 
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.6 }}
+                        className="text-xl md:text-3xl font-light text-white/60 mb-12 max-w-3xl mx-auto leading-relaxed"
+                    >
+                        Experience the collision of Michelin-star culinary artistry and bleeding-edge technology.
+                    </motion.p>
+                    
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, delay: 0.8, type: "spring", bounce: 0.5 }}
+                    >
+                        <button 
+                            onClick={() => router.push('/login')}
+                            className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-white text-black rounded-full font-bold text-lg overflow-hidden transition-transform hover:scale-105 shadow-[0_0_40px_rgba(212,184,134,0.3)]"
+                        >
+                            <span className="relative z-10">Enter the Portal</span>
+                            <div className="relative z-10 w-10 h-10 rounded-full bg-black flex items-center justify-center group-hover:translate-x-2 transition-transform">
+                                <ArrowRight className="w-5 h-5 text-theme-gold" />
+                            </div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-theme-gold via-yellow-200 to-theme-gold opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0" />
+                        </button>
+                    </motion.div>
+                </div>
+                
+                {/* Scroll Indicator */}
                 <motion.div 
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                    className="glass-panel p-8 lg:p-12 rounded-3xl w-full max-w-md mx-auto"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2, duration: 1 }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
                 >
-                    <AnimatePresence mode="wait">
-                        {step === 'role' && (
-                            <motion.div
-                                key="role"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                className="space-y-6"
-                            >
-                                <h3 className="text-2xl font-heading font-semibold text-center text-white">Select Your Portal</h3>
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                    <button 
-                                        onClick={() => handleRoleSelect('customer')}
-                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
-                                    >
-                                        <User className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
-                                        <span className="font-semibold text-white/80 group-hover:text-theme-gold">Customer</span>
-                                    </button>
-                                    <button 
-                                        onClick={() => handleRoleSelect('driver')}
-                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
-                                    >
-                                        <Truck className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
-                                        <span className="font-semibold text-white/80 group-hover:text-theme-gold">Driver</span>
-                                    </button>
-                                    <button 
-                                        onClick={() => handleRoleSelect('admin')}
-                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
-                                    >
-                                        <ShieldCheck className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
-                                        <span className="font-semibold text-white/80 group-hover:text-theme-gold">Admin</span>
-                                    </button>
-                                </div>
-                            </motion.div>
-                        )}
-
-                        {step === 'login' && (
-                            <motion.div
-                                key="login"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                className="space-y-6"
-                            >
-                                <button onClick={() => setStep('role')} className="text-white/50 hover:text-white flex items-center gap-2 text-sm transition-colors">
-                                    <ArrowLeft className="w-4 h-4" /> Back
-                                </button>
-                                <h3 className="text-3xl font-heading font-bold">
-                                    {role === 'admin' ? (
-                                        <>Admin <span className="text-gradient">Portal</span></>
-                                    ) : (
-                                        <>Welcome <span className="text-gradient">Back</span></>
-                                    )}
-                                </h3>
-                                
-                                <form onSubmit={handleLogin} className="space-y-4">
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Email Address</label>
-                                        <input 
-                                            type="email" 
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
-                                            placeholder="name@example.com"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Password</label>
-                                        <input 
-                                            type="password" 
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
-                                            placeholder="••••••••"
-                                        />
-                                    </div>
-                                    <button 
-                                        type="submit" 
-                                        disabled={isLoading}
-                                        className="btn-primary w-full mt-2 flex items-center justify-center gap-2"
-                                    >
-                                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : (role === 'admin' ? 'Secure Login' : 'Sign In')}
-                                    </button>
-                                </form>
-                                
-                                {role === 'customer' && (
-                                    <p className="text-center text-sm text-white/50">
-                                        Don't have an account?{' '}
-                                        <button onClick={() => setStep('register')} className="text-theme-gold hover:text-[#E5D3B3] font-semibold">
-                                            Register here
-                                        </button>
-                                    </p>
-                                )}
-                            </motion.div>
-                        )}
-
-                        {step === 'register' && (
-                            <motion.div
-                                key="register"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -20 }}
-                                className="space-y-6"
-                            >
-                                <button onClick={() => setStep('login')} className="text-white/50 hover:text-white flex items-center gap-2 text-sm transition-colors">
-                                    <ArrowLeft className="w-4 h-4" /> Back to Login
-                                </button>
-                                <h3 className="text-3xl font-heading font-bold">Create Account</h3>
-                                
-                                <form onSubmit={handleRegister} className="space-y-4">
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Full Name</label>
-                                        <input 
-                                            type="text" 
-                                            value={name}
-                                            onChange={(e) => setName(e.target.value)}
-                                            required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
-                                            placeholder="John Doe"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Email Address</label>
-                                        <input 
-                                            type="email" 
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
-                                            placeholder="name@example.com"
-                                        />
-                                    </div>
-                                    <div className="space-y-1">
-                                        <label className="text-xs font-semibold text-white/50 uppercase tracking-wider">Password</label>
-                                        <input 
-                                            type="password" 
-                                            value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
-                                            placeholder="••••••••"
-                                        />
-                                    </div>
-                                    <button 
-                                        type="submit" 
-                                        disabled={isLoading}
-                                        className="btn-primary w-full mt-2 flex items-center justify-center gap-2"
-                                    >
-                                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Create Account'}
-                                    </button>
-                                </form>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
+                    <span className="text-xs uppercase tracking-[0.3em] text-white/40">Scroll to explore</span>
+                    <div className="w-[1px] h-16 bg-gradient-to-b from-white/40 to-transparent" />
                 </motion.div>
-            </div>
+            </section>
+
+            {/* FEATURES SHOWCASE */}
+            <section className="py-32 relative z-20 bg-[#040A07]">
+                <div className="max-w-7xl mx-auto px-6">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-24"
+                    >
+                        <h2 className="text-4xl md:text-6xl font-heading font-extrabold mb-6">Engineered for <span className="text-theme-gold">Taste</span></h2>
+                        <p className="text-xl text-white/50 max-w-2xl mx-auto">We didn't just build a delivery app. We built a synchronized ecosystem connecting chefs, drivers, and you in real-time.</p>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-3 gap-8">
+                        {[
+                            { icon: Smartphone, title: "AI Voice Ordering", desc: "Just speak your cravings. Our Gemini-powered AI builds the perfect cart instantly." },
+                            { icon: Users, title: "Multiplayer Carts", desc: "Share a link and watch your friends add items live on your screen. Synchronized dining." },
+                            { icon: Zap, title: "Live Logistics", desc: "Down to the second. Watch your order progress from the chef's pan to your doorstep." }
+                        ].map((feature, idx) => (
+                            <motion.div 
+                                key={idx}
+                                initial={{ opacity: 0, y: 50 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.6, delay: idx * 0.2 }}
+                                className="bg-white/5 border border-white/10 p-10 rounded-[2.5rem] hover:bg-white/10 hover:border-theme-gold/30 transition-all group"
+                            >
+                                <div className="w-16 h-16 rounded-2xl bg-black border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:border-theme-gold/50 transition-all duration-500">
+                                    <feature.icon className="w-8 h-8 text-theme-gold" />
+                                </div>
+                                <h3 className="text-2xl font-bold mb-4">{feature.title}</h3>
+                                <p className="text-white/50 leading-relaxed">{feature.desc}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* MASSIVE CTA FOOTER */}
+            <section className="relative h-[80vh] flex flex-col items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 bg-theme-gold/5 z-0" />
+                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1934&auto=format&fit=crop')] bg-cover bg-center opacity-20 mix-blend-overlay z-0" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#040A07] via-transparent to-[#040A07] z-10" />
+                
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1 }}
+                    className="relative z-20 text-center max-w-4xl mx-auto px-6"
+                >
+                    <h2 className="text-6xl md:text-8xl font-heading font-extrabold mb-8 drop-shadow-2xl">Hungry?</h2>
+                    <button 
+                        onClick={() => router.push('/login')}
+                        className="btn-primary text-xl px-12 py-6 rounded-full shadow-[0_0_40px_rgba(212,184,134,0.4)] hover:shadow-[0_0_60px_rgba(212,184,134,0.6)]"
+                    >
+                        Start Your Journey
+                    </button>
+                </motion.div>
+            </section>
         </main>
     );
 }

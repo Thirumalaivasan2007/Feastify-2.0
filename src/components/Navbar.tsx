@@ -71,7 +71,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav className="fixed top-0 w-full z-50 bg-theme-bg border-b border-transparent print:hidden">
+            <nav className={`fixed top-0 w-full z-50 transition-colors duration-300 border-b border-transparent print:hidden ${pathname === '/' ? 'bg-transparent backdrop-blur-sm' : 'bg-theme-bg/90 backdrop-blur-md'}`}>
             <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center relative">
                 
                 {/* LEFT - LOGO */}

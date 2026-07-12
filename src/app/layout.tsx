@@ -6,6 +6,7 @@ import Footer from '@/components/Footer';
 import { Toaster } from 'react-hot-toast';
 import { ThemeProvider } from '@/lib/ThemeContext';
 import AIConcierge from '@/components/AIConcierge';
+import SplashScreen from '@/components/SplashScreen';
 
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' });
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -27,6 +28,7 @@ export default function RootLayout({
                 <div className="fixed inset-0 z-[-1] pointer-events-none bg-theme-bg bg-grid-pattern" />
                 <ThemeProvider>
                     <Providers>
+                        <SplashScreen />
                         <div className="flex-grow">
                             {children}
                         </div>
