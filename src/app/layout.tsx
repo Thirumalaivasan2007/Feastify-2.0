@@ -13,6 +13,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 export const metadata: Metadata = {
     title: 'Feastify | Premium Food Delivery',
     description: 'Experience the art of flavor, delivered to your door.',
+    manifest: '/manifest.json',
 };
 
 export default function RootLayout({

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import Recommendations from '@/components/Recommendations';
+import Pusher from 'pusher-js';
 
 const MapPicker = dynamic(() => import('@/components/MapPicker'), { ssr: false });
 
@@ -23,6 +24,7 @@ export default function CartPage() {
     const [showGroupInfo, setShowGroupInfo] = useState(false);
     const router = useRouter();
     const [usePoints, setUsePoints] = useState(false);
+    const [groupId, setGroupId] = useState<string | null>(null);
     
     // Promo code state
     const [promoCode, setPromoCode] = useState('');
@@ -34,49 +36,99 @@ export default function CartPage() {
         const userStr = localStorage.getItem('user');
         const isGroupCart = window.location.search.includes('group=');
         
+        const gParam = new URLSearchParams(window.location.search).get('group');
+        
         if (!userStr) {
-            if (!isGroupCart) {
+            if (!isGroupCart && !gParam) {
                 router.push('/');
                 return;
             }
+        } else {
+            const u = JSON.parse(userStr);
+            if (u.role === 'admin' || u.role === 'driver') {
+                router.push(u.role === 'admin' ? '/admin' : '/driver');
+                return;
+            }
+            setUser(u);
+            
+            // Fetch fresh user data for accurate FeastPoints
+            fetch(`/api/users/${u.userId || u._id}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        setUser(data.user);
+                        localStorage.setItem('user', JSON.stringify({ ...u, ...data.user }));
+                    }
+                })
+                .catch(console.error);
+        }
+
+        if (gParam) {
+            setGroupId(gParam);
+            localStorage.setItem('activeGroupId', gParam); // so menu knows where to add
+            
+            fetch(`/api/group-cart?groupId=${gParam}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) setCart(data.cart);
+                });
+
+            const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY || 'dummy_key', {
+                cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER || 'mt1'
+            });
+            const channel = pusher.subscribe(`group-${gParam}`);
+            channel.bind('cart-updated', (data: any) => {
+                setCart(data.items);
+            });
+            return () => {
+                pusher.unsubscribe(`group-${gParam}`);
+            };
+        } else {
             setCart(JSON.parse(localStorage.getItem('cart') || '[]'));
-            return;
         }
-        const u = JSON.parse(userStr);
-        if (u.role === 'admin' || u.role === 'driver') {
-            router.push(u.role === 'admin' ? '/admin' : '/driver');
-            return;
-        }
-        setUser(u);
-        setCart(JSON.parse(localStorage.getItem('cart') || '[]'));
-        
-        // Fetch fresh user data for accurate FeastPoints
-        fetch(`/api/users/${u.userId || u._id}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.success) {
-                    setUser(data.user);
-                    localStorage.setItem('user', JSON.stringify({ ...u, ...data.user }));
-                }
-            })
-            .catch(console.error);
     }, [router]);
 
-    const updateQuantity = (idx: number, delta: number) => {
-        const newCart = [...cart];
-        newCart[idx].quantity = (newCart[idx].quantity || 1) + delta;
-        if (newCart[idx].quantity <= 0) newCart.splice(idx, 1);
-        setCart(newCart);
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        window.dispatchEvent(new Event('cartUpdated'));
+    const updateQuantity = async (idx: number, delta: number) => {
+        const item = cart[idx];
+        if (groupId) {
+            await fetch('/api/group-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    groupId,
+                    action: delta > 0 ? 'add' : 'decrease',
+                    item: { foodId: item.foodId || item._id || item.id, quantity: 1 }
+                })
+            });
+        } else {
+            const newCart = [...cart];
+            newCart[idx].quantity = (newCart[idx].quantity || 1) + delta;
+            if (newCart[idx].quantity <= 0) newCart.splice(idx, 1);
+            setCart(newCart);
+            localStorage.setItem('cart', JSON.stringify(newCart));
+            window.dispatchEvent(new Event('cartUpdated'));
+        }
     };
 
-    const removeItem = (idx: number) => {
-        const newCart = [...cart];
-        newCart.splice(idx, 1);
-        setCart(newCart);
-        localStorage.setItem('cart', JSON.stringify(newCart));
-        window.dispatchEvent(new Event('cartUpdated'));
+    const removeItem = async (idx: number) => {
+        const item = cart[idx];
+        if (groupId) {
+            await fetch('/api/group-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    groupId,
+                    action: 'remove',
+                    item: { foodId: item.foodId || item._id || item.id }
+                })
+            });
+        } else {
+            const newCart = [...cart];
+            newCart.splice(idx, 1);
+            setCart(newCart);
+            localStorage.setItem('cart', JSON.stringify(newCart));
+            window.dispatchEvent(new Event('cartUpdated'));
+        }
     };
 
     const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);

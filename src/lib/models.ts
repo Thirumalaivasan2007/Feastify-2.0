@@ -170,3 +170,18 @@ const storeBranchSchema = new Schema({
     }]
 });
 export const StoreBranch = mongoose.models.StoreBranch || mongoose.model('StoreBranch', storeBranchSchema);
+
+// --- GroupCart Model ---
+const groupCartSchema = new Schema({
+    groupId: { type: String, required: true, unique: true },
+    items: [{
+        foodId: { type: String, required: true },
+        name: { type: String, required: true },
+        price: { type: Number, required: true },
+        quantity: { type: Number, default: 1 },
+        addedBy: { type: String, default: 'Guest' },
+        imageUrl: { type: String }
+    }],
+    createdAt: { type: Date, default: Date.now, expires: '24h' } // auto-delete after 24h
+});
+export const GroupCart = mongoose.models.GroupCart || mongoose.model('GroupCart', groupCartSchema);

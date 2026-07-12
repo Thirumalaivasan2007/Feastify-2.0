@@ -2,7 +2,24 @@
 
 import { Toaster } from 'react-hot-toast';
 
+import { useEffect } from 'react';
+
 export default function Providers({ children }: { children: React.ReactNode }) {
+    useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('SW registered:', registration);
+                })
+                .catch(error => {
+                    console.log('SW registration failed:', error);
+                });
+        }
+        if ('Notification' in window && Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+    }, []);
+
     return (
         <>
             {children}

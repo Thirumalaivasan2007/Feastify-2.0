@@ -39,10 +39,69 @@ function MenuContent() {
             toast.success("Listening...", { id: 'voice' });
         };
 
-        recognition.onresult = (event: any) => {
+        recognition.onresult = async (event: any) => {
             const transcript = event.results[0][0].transcript;
             setSearchQuery(transcript);
-            toast.success(`Heard: "${transcript}"`, { id: 'voice' });
+            toast.success(`Heard: "${transcript}". AI is analyzing...`, { id: 'voice' });
+            
+            try {
+                const res = await fetch('/api/ai/voice-order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ transcript })
+                });
+                const data = await res.json();
+                
+                if (data.success && data.items.length > 0) {
+                    toast.success(`AI added ${data.items.length} items to your cart!`, { id: 'voice' });
+                    
+                    const groupId = localStorage.getItem('activeGroupId');
+                    
+                    if (groupId) {
+                        // Add each item to group cart
+                        for (const item of data.items) {
+                            const food = foods.find(f => f._id === item.foodId);
+                            if (food) {
+                                await fetch('/api/group-cart', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        groupId,
+                                        action: 'add',
+                                        item: { 
+                                            foodId: food._id, 
+                                            name: food.name, 
+                                            price: food.price, 
+                                            quantity: item.quantity || 1,
+                                            imageUrl: food.imageUrl 
+                                        }
+                                    })
+                                });
+                            }
+                        }
+                    } else {
+                        // Add each item to local cart
+                        let localCart = JSON.parse(localStorage.getItem('cart') || '[]');
+                        data.items.forEach((item: any) => {
+                            const food = foods.find(f => f._id === item.foodId);
+                            if (food) {
+                                const existing = localCart.find((c: any) => c._id === food._id);
+                                if (existing) {
+                                    existing.quantity = (existing.quantity || 1) + (item.quantity || 1);
+                                } else {
+                                    localCart.push({ ...food, quantity: item.quantity || 1, id: food._id });
+                                }
+                            }
+                        });
+                        localStorage.setItem('cart', JSON.stringify(localCart));
+                        window.dispatchEvent(new Event('cartUpdated'));
+                    }
+                } else {
+                    toast.error("AI couldn't find matching items. Try being more specific.", { id: 'voice' });
+                }
+            } catch (err) {
+                toast.error("Failed to process voice order with AI.", { id: 'voice' });
+            }
         };
 
         recognition.onerror = (event: any) => {
@@ -118,16 +177,37 @@ function MenuContent() {
         return () => window.removeEventListener('cartUpdated', updateCartMeta);
     }, [router]);
 
-    const addToCart = (food: any) => {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        const existing = cart.find((c: any) => c._id === food._id);
-        if (existing) {
-            existing.quantity = (existing.quantity || 1) + 1;
+    const addToCart = async (food: any) => {
+        const groupId = localStorage.getItem('activeGroupId');
+        if (groupId) {
+            await fetch('/api/group-cart', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    groupId,
+                    action: 'add',
+                    item: { 
+                        foodId: food._id, 
+                        name: food.name, 
+                        price: food.price, 
+                        quantity: 1,
+                        imageUrl: food.imageUrl 
+                    }
+                })
+            });
+            toast.success('Added to Group Cart');
         } else {
-            cart.push({ ...food, quantity: 1, id: food._id });
+            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const existing = cart.find((c: any) => c._id === food._id);
+            if (existing) {
+                existing.quantity = (existing.quantity || 1) + 1;
+            } else {
+                cart.push({ ...food, quantity: 1, id: food._id });
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            window.dispatchEvent(new Event('cartUpdated'));
+            toast.success('Added to Cart');
         }
-        localStorage.setItem('cart', JSON.stringify(cart));
-        window.dispatchEvent(new Event('cartUpdated'));
     };
 
     const toggleFavorite = async (foodId: string, e: any) => {
