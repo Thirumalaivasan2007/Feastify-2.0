@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2 } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 export default function SplashScreen() {
@@ -44,42 +43,47 @@ export default function SplashScreen() {
                     </div>
                     
                     <div className="relative z-10 flex flex-col items-center">
-                        {/* Logo Animation */}
+                        {/* Elegant Vertical Logo Animation */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="relative flex items-center space-x-6 mb-8 pr-12"
+                            className="flex flex-col items-center text-center space-y-8 mb-12"
                         >
-                            <div className="relative w-16 h-16 md:w-20 md:h-20 overflow-hidden rounded-full border border-theme-gold/40 flex items-center justify-center shrink-0">
-                                <span className="font-serif text-3xl md:text-4xl text-theme-gold">F</span>
-                            </div>
-                            <div className="flex flex-col items-start text-left">
-                                <span className="font-serif text-4xl md:text-6xl tracking-widest text-theme-gold font-semibold uppercase relative leading-none">
+                            {/* Circle Logo with Orbital Loader */}
+                            <motion.div 
+                                initial={{ scale: 0.9, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1 }}
+                                transition={{ duration: 1, ease: "easeOut" }}
+                                className="relative w-24 h-24 md:w-28 md:h-28 rounded-full border border-theme-gold/10 flex items-center justify-center shadow-[0_0_40px_rgba(212,184,134,0.1)]"
+                            >
+                                <span className="font-serif text-4xl md:text-5xl text-theme-gold relative z-10">F</span>
+                                
+                                {/* Spinning Orbital Ring */}
+                                <motion.div 
+                                    className="absolute inset-0 rounded-full border-[1.5px] border-transparent border-t-theme-gold/80 border-r-theme-gold/30"
+                                    animate={{ rotate: 360 }}
+                                    transition={{ duration: 1.5, ease: "linear", repeat: Infinity }}
+                                />
+                            </motion.div>
+
+                            {/* Typography */}
+                            <div className="flex flex-col items-center">
+                                <span className="font-serif text-4xl md:text-5xl tracking-[0.25em] text-theme-gold font-light uppercase relative leading-none mb-5">
                                     Feastify
                                 </span>
-                                <span className="text-xs md:text-sm tracking-[0.3em] text-theme-text/60 uppercase font-sans mt-3 leading-none">
+                                <span className="text-xs md:text-sm tracking-[0.4em] text-theme-text/50 uppercase font-sans leading-none">
                                     Premium Dining
                                 </span>
-                            </div>
-                            
-                            {/* Minimalist Spinner */}
-                            <div className="absolute right-0 top-0 bottom-0 flex items-center justify-center">
-                                <motion.div
-                                    animate={{ rotate: 360 }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                                >
-                                    <Loader2 className="w-8 h-8 md:w-10 md:h-10 text-theme-gold" />
-                                </motion.div>
                             </div>
                         </motion.div>
 
                         {/* Progress Line */}
                         <motion.div 
                             initial={{ width: 0, opacity: 0 }}
-                            animate={{ width: "200px", opacity: 1 }}
+                            animate={{ width: "240px", opacity: 1 }}
                             transition={{ duration: 1.5, delay: 0.5, ease: "circOut" }}
-                            className="h-px bg-gradient-to-r from-transparent via-theme-gold to-transparent"
+                            className="h-[1px] bg-gradient-to-r from-transparent via-theme-gold/70 to-transparent"
                         />
                         
                         <motion.p
