@@ -32,7 +32,13 @@ export default function CartPage() {
 
     useEffect(() => {
         const userStr = localStorage.getItem('user');
+        const isGroupCart = window.location.search.includes('group=');
+        
         if (!userStr) {
+            if (!isGroupCart) {
+                router.push('/');
+                return;
+            }
             setCart(JSON.parse(localStorage.getItem('cart') || '[]'));
             return;
         }
