@@ -245,12 +245,24 @@ export default function OrdersPage() {
                                                 )}
 
                                                 {order.orderStatus === 'Delivered' && (
-                                                    <button 
-                                                        onClick={() => window.open(`/receipt/${order._id}`, '_blank')}
-                                                        className="text-xs font-bold text-white hover:text-black bg-white/10 hover:bg-white px-5 py-2.5 rounded-full transition-all duration-300 border border-white/20 hover:border-transparent mt-2 w-fit flex items-center gap-1.5 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-                                                    >
-                                                        <Printer className="w-4 h-4" /> View Receipt
-                                                    </button>
+                                                    <div className="flex flex-col gap-2 mt-2 w-full lg:items-end">
+                                                        <button 
+                                                            onClick={() => {
+                                                                localStorage.setItem('cart', JSON.stringify(order.cartItems));
+                                                                toast.success('Cart updated! Redirecting to checkout...');
+                                                                setTimeout(() => router.push('/cart'), 1000);
+                                                            }}
+                                                            className="text-xs font-bold text-black hover:text-white bg-theme-gold hover:bg-theme-gold/80 px-5 py-2.5 rounded-full transition-all duration-300 border border-theme-gold hover:border-transparent w-fit flex items-center gap-1.5 shadow-[0_0_15px_rgba(212,184,134,0.3)] hover:shadow-[0_0_20px_rgba(212,184,134,0.5)]"
+                                                        >
+                                                            <Package className="w-4 h-4" /> 1-Tap Reorder
+                                                        </button>
+                                                        <button 
+                                                            onClick={() => window.open(`/receipt/${order._id}`, '_blank')}
+                                                            className="text-xs font-bold text-white hover:text-black bg-white/10 hover:bg-white px-5 py-2.5 rounded-full transition-all duration-300 border border-white/20 hover:border-transparent w-fit flex items-center gap-1.5 shadow-[0_0_15px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                                                        >
+                                                            <Printer className="w-4 h-4" /> View Receipt
+                                                        </button>
+                                                    </div>
                                                 )}
                                             </div>
                                         </div>

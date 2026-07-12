@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Clock, Info, Plus, Star, Flame } from 'lucide-react';
+import { ArrowLeft, Clock, Info, Plus, Star, Flame, Box } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -18,6 +18,7 @@ function DetailsContent() {
     const [rating, setRating] = useState(5);
     const [comment, setComment] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showAR, setShowAR] = useState(false);
 
     useEffect(() => {
         const userStr = localStorage.getItem('user');
@@ -105,6 +106,14 @@ function DetailsContent() {
                     <div className="absolute inset-0 bg-theme-gold/10 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none"></div>
                     <img src={food.imageUrl} alt={food.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#040A07] via-black/20 to-transparent z-20 pointer-events-none"></div>
+                    
+                    {/* AR Preview Button Overlay */}
+                    <button 
+                        onClick={() => setShowAR(true)}
+                        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 bg-black/60 backdrop-blur-md border border-theme-gold/40 text-theme-gold px-6 py-3 rounded-full font-bold uppercase tracking-widest text-xs flex items-center gap-2 hover:bg-theme-gold hover:text-black transition-colors shadow-[0_0_20px_rgba(212,184,134,0.3)]"
+                    >
+                        <Box className="w-4 h-4" /> View in AR
+                    </button>
                 </motion.div>
                 
                 <motion.div 
@@ -123,14 +132,14 @@ function DetailsContent() {
                         {food.category}
                     </div>
                     
-                    <h1 className="text-5xl lg:text-7xl font-heading font-extrabold leading-tight text-white/90">
+                    <h1 className="text-5xl lg:text-7xl font-heading font-extrabold leading-tight text-theme-text/90">
                         {food.name}
                     </h1>
                     
                     {food.reviews && food.reviews.length > 0 && (
                         <div className="flex items-center gap-2 mt-4">
                             <Star className="w-6 h-6 text-theme-gold fill-current" />
-                            <span className="text-2xl font-bold text-white">{(food.reviews.reduce((acc: number, rev: any) => acc + rev.rating, 0) / food.reviews.length).toFixed(1)}</span>
+                            <span className="text-2xl font-bold text-theme-text">{(food.reviews.reduce((acc: number, rev: any) => acc + rev.rating, 0) / food.reviews.length).toFixed(1)}</span>
                             <span className="text-theme-text/50 text-sm">({food.reviews.length} reviews)</span>
                         </div>
                     )}
@@ -169,7 +178,7 @@ function DetailsContent() {
                                 <div>
                                     <div className="flex justify-between text-sm font-bold mb-2">
                                         <span className="text-blue-400">Protein</span>
-                                        <span className="text-white">{food.price > 300 ? '45g' : '12g'}</span>
+                                        <span className="text-theme-text">{food.price > 300 ? '45g' : '12g'}</span>
                                     </div>
                                     <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
                                         <motion.div initial={{ width: 0 }} whileInView={{ width: food.price > 300 ? '75%' : '20%' }} transition={{ duration: 1, delay: 0.2 }} viewport={{ once: true }} className="h-full bg-blue-500 rounded-full" />
@@ -179,7 +188,7 @@ function DetailsContent() {
                                 <div>
                                     <div className="flex justify-between text-sm font-bold mb-2">
                                         <span className="text-yellow-500">Carbs</span>
-                                        <span className="text-white">{food.category === 'Desserts' || food.category === 'Biryani' ? '65g' : '30g'}</span>
+                                        <span className="text-theme-text">{food.category === 'Desserts' || food.category === 'Biryani' ? '65g' : '30g'}</span>
                                     </div>
                                     <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
                                         <motion.div initial={{ width: 0 }} whileInView={{ width: food.category === 'Desserts' || food.category === 'Biryani' ? '85%' : '40%' }} transition={{ duration: 1, delay: 0.4 }} viewport={{ once: true }} className="h-full bg-yellow-500 rounded-full" />
@@ -189,7 +198,7 @@ function DetailsContent() {
                                 <div>
                                     <div className="flex justify-between text-sm font-bold mb-2">
                                         <span className="text-red-400">Fats</span>
-                                        <span className="text-white">{food.category === 'Desserts' ? '40g' : '18g'}</span>
+                                        <span className="text-theme-text">{food.category === 'Desserts' ? '40g' : '18g'}</span>
                                     </div>
                                     <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden">
                                         <motion.div initial={{ width: 0 }} whileInView={{ width: food.category === 'Desserts' ? '60%' : '25%' }} transition={{ duration: 1, delay: 0.6 }} viewport={{ once: true }} className="h-full bg-red-400 rounded-full" />
@@ -214,7 +223,7 @@ function DetailsContent() {
                                     <motion.circle initial={{ strokeDasharray: "0 251" }} whileInView={{ strokeDasharray: "31 251" }} transition={{ duration: 1.5, delay: 1 }} viewport={{ once: true }} cx="50" cy="50" r="40" fill="transparent" stroke="#f87171" strokeWidth="12" strokeDashoffset="-220" />
                                 </svg>
                                 
-                                <span className="text-4xl md:text-5xl font-heading font-extrabold text-white">{food.category === 'Desserts' ? '850' : '520'}</span>
+                                <span className="text-4xl md:text-5xl font-heading font-extrabold text-theme-text">{food.category === 'Desserts' ? '850' : '520'}</span>
                                 <span className="text-xs uppercase tracking-widest text-theme-text/50 mt-1">Calories</span>
                             </motion.div>
                         </div>
@@ -237,7 +246,7 @@ function DetailsContent() {
                                     key={star}
                                     type="button"
                                     onClick={() => setRating(star)}
-                                    className={`p-1 transition-all ${rating >= star ? 'text-theme-gold scale-110' : 'text-white/20 hover:text-white/50'}`}
+                                    className={`p-1 transition-all ${rating >= star ? 'text-theme-gold scale-110' : 'text-theme-text/20 hover:text-theme-text/50'}`}
                                 >
                                     <Star className="w-8 h-8 fill-current" />
                                 </button>
@@ -247,7 +256,7 @@ function DetailsContent() {
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             placeholder="Share your experience with this dish..."
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-theme-gold focus:ring-1 focus:ring-theme-gold transition-all min-h-[120px]"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-theme-text focus:outline-none focus:border-theme-gold focus:ring-1 focus:ring-theme-gold transition-all min-h-[120px]"
                             required
                         />
                         <div className="flex justify-end">
@@ -264,8 +273,8 @@ function DetailsContent() {
 
                 <div className="space-y-6">
                     {(!food.reviews || food.reviews.length === 0) ? (
-                        <div className="text-center py-12 text-white/50 bg-theme-surface/30 rounded-3xl border border-white/5">
-                            <Star className="w-12 h-12 mx-auto mb-4 text-white/10" />
+                        <div className="text-center py-12 text-theme-text/50 bg-theme-surface/30 rounded-3xl border border-white/5">
+                            <Star className="w-12 h-12 mx-auto mb-4 text-theme-text/10" />
                             No reviews yet. Be the first to review!
                         </div>
                     ) : (
@@ -273,16 +282,16 @@ function DetailsContent() {
                             <div key={idx} className="glass-panel p-6 rounded-2xl border border-white/10 hover:border-theme-gold/30 transition-colors">
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
-                                        <h5 className="font-bold text-white mb-1">{rev.userName}</h5>
-                                        <div className="text-xs text-white/40">{new Date(rev.createdAt).toLocaleDateString()}</div>
+                                        <h5 className="font-bold text-theme-text mb-1">{rev.userName}</h5>
+                                        <div className="text-xs text-theme-text/40">{new Date(rev.createdAt).toLocaleDateString()}</div>
                                     </div>
                                     <div className="flex items-center gap-1 text-theme-gold">
                                         {[...Array(5)].map((_, i) => (
-                                            <Star key={i} className={`w-4 h-4 ${i < rev.rating ? 'fill-current' : 'text-white/10 fill-transparent'}`} />
+                                            <Star key={i} className={`w-4 h-4 ${i < rev.rating ? 'fill-current' : 'text-theme-text/10 fill-transparent'}`} />
                                         ))}
                                     </div>
                                 </div>
-                                <p className="text-white/80">{rev.comment}</p>
+                                <p className="text-theme-text/80">{rev.comment}</p>
                             </div>
                         ))
                     )}
@@ -291,6 +300,47 @@ function DetailsContent() {
 
             {/* AI Recommendations */}
             <Recommendations contextCategory={food.category} />
+
+            {/* AR Modal */}
+            {showAR && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm">
+                    <div className="absolute inset-0" onClick={() => setShowAR(false)}></div>
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="relative w-full max-w-2xl h-[70vh] border border-theme-gold/30 rounded-3xl overflow-hidden bg-[#0A0A0A]"
+                    >
+                        {/* Mock Camera Background */}
+                        <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80')" }}></div>
+                        
+                        {/* Floating AR Model (Mocked with spinning image) */}
+                        <motion.div 
+                            animate={{ rotateY: 360, y: [0, -20, 0] }}
+                            transition={{ rotateY: { duration: 10, repeat: Infinity, ease: "linear" }, y: { duration: 3, repeat: Infinity, ease: "easeInOut" } }}
+                            className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                        >
+                            <img src={food.imageUrl} alt={food.name} className="w-64 h-64 object-cover rounded-full shadow-[0_30px_60px_rgba(0,0,0,0.8)] border-4 border-theme-gold/20" style={{ filter: 'drop-shadow(0 20px 30px rgba(0,0,0,0.5))' }} />
+                        </motion.div>
+
+                        {/* AR UI Elements */}
+                        <div className="absolute top-6 left-6 right-6 flex justify-between items-start pointer-events-none">
+                            <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                                <p className="text-xs text-theme-text/70 font-bold uppercase tracking-widest">AR Mode Active</p>
+                                <p className="text-theme-gold font-bold">Scanning Surface...</p>
+                            </div>
+                            <button onClick={() => setShowAR(false)} className="bg-black/50 border border-white/10 w-10 h-10 rounded-full flex items-center justify-center pointer-events-auto hover:bg-white/10 transition-colors">
+                                <span className="text-theme-text text-xl leading-none">&times;</span>
+                            </button>
+                        </div>
+                        
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 pointer-events-none flex gap-4">
+                            <div className="w-16 h-16 rounded-full border-2 border-theme-gold flex items-center justify-center shadow-[0_0_20px_rgba(212,184,134,0.3)]">
+                                <div className="w-12 h-12 bg-theme-gold rounded-full"></div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
         </>
     );
 }

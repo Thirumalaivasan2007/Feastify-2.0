@@ -44,7 +44,7 @@
     @apply bg-gradient-to-r from-theme-gold-dark via-theme-gold-light to-theme-gold;
   }
   .input-field {
-    @apply w-full bg-[#07100D] border border-theme-border rounded-xl px-5 py-4 text-theme-text placeholder-theme-muted focus:outline-none focus:border-theme-border-highlight focus:ring-1 focus:ring-theme-border-highlight transition-all duration-300 shadow-inner;
+    @apply w-full bg-theme-bg-secondary border border-theme-border rounded-xl px-5 py-4 text-theme-text placeholder-theme-muted focus:outline-none focus:border-theme-border-highlight focus:ring-1 focus:ring-theme-border-highlight transition-all duration-300 shadow-inner;
   }
   .btn-primary {
     @apply bg-gradient-to-r from-theme-gold-dark via-theme-gold-light to-theme-gold text-[#040A07] font-bold py-3 px-8 rounded-xl transition-all duration-500 shadow-[0_0_20px_rgba(212,184,134,0.15)] hover:shadow-[0_0_30px_rgba(243,229,200,0.4)] hover:scale-[1.02];

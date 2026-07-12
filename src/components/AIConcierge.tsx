@@ -276,6 +276,7 @@ export default function AIConcierge() {
             </AnimatePresence>
 
             <button 
+                suppressHydrationWarning
                 onClick={() => setIsOpen(!isOpen)}
                 className={`w-16 h-16 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(212,184,134,0.3)] transition-all duration-300 hover:scale-110 active:scale-95 z-50 relative ${isOpen ? 'bg-[#020504] border border-theme-gold text-theme-gold' : 'bg-gradient-gold text-black'}`}
             >

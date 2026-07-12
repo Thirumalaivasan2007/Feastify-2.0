@@ -1,11 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MapPin, Navigation, Clock, ChefHat, Package } from 'lucide-react';
+import { MapPin, Navigation, Clock, ChefHat, Package, Video, MessageSquare, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 export default function LiveTrackingMap({ orderId, status, driverName }: { orderId: string, status: string, driverName?: string }) {
     const [progress, setProgress] = useState(0);
+    const [showCam, setShowCam] = useState(false);
+    const [showChat, setShowChat] = useState(false);
 
     useEffect(() => {
         if (status === 'Out for Delivery') {
@@ -42,12 +44,26 @@ export default function LiveTrackingMap({ orderId, status, driverName }: { order
                     <motion.div 
                         animate={{ scale: [1, 1.05, 1] }} 
                         transition={{ repeat: Infinity, duration: 2 }}
-                        className="flex flex-col items-center justify-center gap-4 opacity-50"
+                        className="flex flex-col items-center justify-center gap-4 opacity-50 relative w-full h-full"
                     >
-                        <div className="w-16 h-16 rounded-full bg-theme-gold/10 flex items-center justify-center border border-theme-gold/30">
-                            <ChefHat className="w-8 h-8 text-theme-gold" />
-                        </div>
-                        <p className="text-xs tracking-widest uppercase">Chefs at work</p>
+                        {showCam ? (
+                            <div className="absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-30">
+                                <Video className="w-8 h-8 text-red-500 animate-pulse mb-2" />
+                                <span className="text-xs font-bold text-white uppercase tracking-widest">Live Kitchen Cam</span>
+                                <span className="text-[10px] text-theme-text/50">Your food is being prepared by our chefs</span>
+                                <button onClick={() => setShowCam(false)} className="absolute top-2 right-2 text-white/50 hover:text-white"><X className="w-4 h-4" /></button>
+                            </div>
+                        ) : (
+                            <>
+                                <div className="w-16 h-16 rounded-full bg-theme-gold/10 flex items-center justify-center border border-theme-gold/30">
+                                    <ChefHat className="w-8 h-8 text-theme-gold" />
+                                </div>
+                                <p className="text-xs tracking-widest uppercase">Chefs at work</p>
+                                <button onClick={() => setShowCam(true)} className="absolute bottom-4 right-4 text-[10px] font-bold bg-theme-gold/20 text-theme-gold px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-theme-gold/30 hover:bg-theme-gold hover:text-black transition-colors z-20">
+                                    <Video className="w-3 h-3" /> View Kitchen
+                                </button>
+                            </>
+                        )}
                     </motion.div>
                 ) : status === 'Ready' ? (
                     <motion.div 
@@ -111,19 +127,33 @@ export default function LiveTrackingMap({ orderId, status, driverName }: { order
 
             {/* Driver Details (Real Data) */}
             {status === 'Out for Delivery' && (
-                <div className="mt-6 flex items-center gap-4 bg-black/10 p-4 rounded-xl border border-white/5">
-                    <div className="w-12 h-12 rounded-full bg-theme-text/10 flex items-center justify-center font-bold">
-                        {driverName ? driverName.charAt(0).toUpperCase() : 'D'}
+                <div className="mt-6 flex flex-col sm:flex-row items-center gap-4 bg-black/10 p-4 rounded-xl border border-white/5">
+                    <div className="flex items-center gap-4 w-full">
+                        <div className="w-12 h-12 rounded-full bg-theme-text/10 flex items-center justify-center font-bold">
+                            {driverName ? driverName.charAt(0).toUpperCase() : 'D'}
+                        </div>
+                        <div className="flex-1">
+                            <p className="font-bold">{driverName || 'Driver'} - Your Driver</p>
+                            <p className="text-xs opacity-60 flex items-center gap-1 mt-1">
+                                <Navigation className="w-3 h-3" /> Tracking Live
+                            </p>
+                        </div>
+                        <button onClick={() => setShowChat(!showChat)} className="ml-auto px-4 py-2 bg-theme-surface border border-theme-gold/30 rounded-lg text-xs font-bold text-theme-gold hover:bg-theme-gold hover:text-black transition-colors flex items-center gap-2">
+                            <MessageSquare className="w-4 h-4" /> Chat
+                        </button>
                     </div>
-                    <div>
-                        <p className="font-bold">{driverName || 'Driver'} - Your Driver</p>
-                        <p className="text-xs opacity-60 flex items-center gap-1 mt-1">
-                            <Navigation className="w-3 h-3" /> Tracking Live
-                        </p>
-                    </div>
-                    <button className="ml-auto px-4 py-2 bg-theme-surface border border-theme-gold/30 rounded-lg text-xs font-bold text-theme-gold hover:bg-theme-gold hover:text-black transition-colors">
-                        Contact
-                    </button>
+                    {showChat && (
+                        <div className="w-full mt-4 bg-black/40 border border-white/10 rounded-lg p-4">
+                            <div className="h-32 overflow-y-auto flex flex-col gap-2 mb-2 text-sm">
+                                <div className="self-end bg-theme-gold text-black px-3 py-1.5 rounded-lg max-w-[80%] rounded-tr-none">Where are you exactly?</div>
+                                <div className="self-start bg-theme-surface border border-theme-border text-white px-3 py-1.5 rounded-lg max-w-[80%] rounded-tl-none">I'm taking the next right turn, 2 mins away!</div>
+                            </div>
+                            <div className="flex gap-2">
+                                <input type="text" placeholder="Type a message..." className="flex-1 bg-transparent border border-theme-border rounded-full px-4 py-1.5 text-sm outline-none focus:border-theme-gold transition-colors" />
+                                <button className="bg-theme-gold text-black font-bold px-4 py-1.5 rounded-full text-sm">Send</button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             )}
         </div>

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ success: false, message: 'Invalid credentials' }, { status: 401 });
         }
 
-        const redirectPath = (user.role === 'admin') ? '/admin' : '/menu';
+        const redirectPath = user.role === 'admin' ? '/admin' : user.role === 'driver' ? '/driver' : '/menu';
 
         return NextResponse.json({ 
             success: true, 

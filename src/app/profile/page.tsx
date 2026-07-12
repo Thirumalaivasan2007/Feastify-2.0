@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
-import { User, Mail, ShieldCheck, MapPin, CreditCard, Bell, Settings, Edit3, Camera, LogOut, Package, ExternalLink, Clock, Truck, CheckCircle2, Phone } from 'lucide-react';
+import { User, Mail, ShieldCheck, MapPin, CreditCard, Bell, Settings, Edit3, Camera, LogOut, Package, ExternalLink, Clock, Truck, CheckCircle2, Phone, Gift, Trophy, Flame } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 

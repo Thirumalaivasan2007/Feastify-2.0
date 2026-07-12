@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Minus, Plus, Trash2, CreditCard, Wallet, CheckCircle2, ShoppingBag, MapPin, Phone, Star, Tag, Gift, Navigation, Banknote, ShieldCheck, ArrowRight, CheckCircle } from 'lucide-react';
+import { Minus, Plus, Trash2, CreditCard, Wallet, CheckCircle2, ShoppingBag, MapPin, Phone, Star, Tag, Gift, Navigation, Banknote, ShieldCheck, ArrowRight, CheckCircle, Users, Link as LinkIcon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
@@ -20,6 +20,7 @@ export default function CartPage() {
     const [deliveryCoordinates, setDeliveryCoordinates] = useState<{lat: number, lng: number} | null>(null);
     const [isProcessing, setIsProcessing] = useState(false);
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showGroupInfo, setShowGroupInfo] = useState(false);
     const router = useRouter();
     const [usePoints, setUsePoints] = useState(false);
     
@@ -177,15 +178,39 @@ export default function CartPage() {
             <Navbar />
             
             <div className="max-w-7xl mx-auto px-6">
-                <h1 className="text-4xl font-heading font-extrabold mb-8">Secure <span className="text-gradient">Checkout</span></h1>
+                <div className="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
+                    <h1 className="text-4xl font-heading font-extrabold">Secure <span className="text-gradient">Checkout</span></h1>
+                    <button 
+                        onClick={() => setShowGroupInfo(true)}
+                        className="bg-theme-surface/50 border border-theme-border/50 hover:border-theme-gold/40 hover:bg-theme-gold/10 px-6 py-2.5 rounded-full flex items-center gap-2 text-sm font-bold text-theme-gold transition-all w-fit shadow-[0_0_15px_rgba(212,184,134,0.1)] hover:shadow-[0_0_25px_rgba(212,184,134,0.2)] backdrop-blur-md"
+                    >
+                        <Users className="w-4 h-4" /> Start Group Order
+                        <div className="w-px h-4 bg-theme-border/50 mx-2"></div>
+                        <LinkIcon className="w-3.5 h-3.5 text-white/50" />
+                    </button>
+                </div>
                 
                 {cart.length === 0 ? (
-                    <div className="text-center py-20">
+                    <div className="text-center py-20 flex flex-col items-center justify-center">
                         <Wallet className="w-16 h-16 mx-auto mb-4 text-white/20" />
                         <h2 className="text-2xl font-bold text-white/70 mb-4">Your cart is empty</h2>
-                        <button onClick={() => router.push('/menu')} className="btn-primary">
+                        <button onClick={() => router.push('/menu')} className="btn-primary mb-12">
                             Explore Menu
                         </button>
+
+                        {/* Empty Cart Banner for Group Orders */}
+                        <div className="max-w-xl w-full bg-gradient-to-r from-theme-gold/20 to-transparent border border-theme-gold/30 rounded-[2rem] p-8 text-left relative overflow-hidden">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-theme-gold/10 rounded-full blur-3xl" />
+                            <Users className="w-10 h-10 text-theme-gold mb-4" />
+                            <h3 className="text-2xl font-bold text-white mb-2">Ordering for a group?</h3>
+                            <p className="text-theme-text/80 mb-6">Start a Group Order, share the link with your friends, and let them add their favorite dishes directly into your cart.</p>
+                            <button 
+                                onClick={() => setShowGroupInfo(true)}
+                                className="text-theme-gold font-bold flex items-center gap-2 hover:text-white transition-colors"
+                            >
+                                Learn More <ArrowRight className="w-4 h-4" />
+                            </button>
+                        </div>
                     </div>
                 ) : (
                     <div className="grid lg:grid-cols-3 gap-12">
@@ -417,6 +442,65 @@ export default function CartPage() {
                             className="btn-primary w-full shadow-[0_0_20px_rgba(212,184,134,0.3)]"
                         >
                             View My Orders
+                        </button>
+                    </motion.div>
+                </div>
+            )}
+
+            {/* Group Order Info Modal */}
+            {showGroupInfo && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-theme-bg border border-theme-gold/30 p-8 md:p-10 rounded-[3rem] max-w-lg w-full relative overflow-hidden"
+                    >
+                        <button onClick={() => setShowGroupInfo(false)} className="absolute top-6 right-6 text-white/50 hover:text-white">
+                            ✕
+                        </button>
+                        <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-theme-gold/5 to-transparent pointer-events-none" />
+                        
+                        <div className="w-16 h-16 bg-theme-gold/20 rounded-full flex items-center justify-center mb-6">
+                            <Users className="w-8 h-8 text-theme-gold" />
+                        </div>
+                        <h2 className="text-3xl font-heading font-extrabold mb-4 text-white">How Group Orders Work</h2>
+                        <p className="text-theme-text/70 mb-8">
+                            Ordering for the whole team or a party? It's simple!
+                        </p>
+
+                        <div className="space-y-6 mb-10">
+                            <div className="flex gap-4 items-start">
+                                <div className="w-8 h-8 rounded-full bg-theme-gold/20 flex items-center justify-center font-bold text-theme-gold shrink-0">1</div>
+                                <div>
+                                    <h4 className="font-bold text-white mb-1">Copy the Link</h4>
+                                    <p className="text-sm text-theme-text/60">Generate a unique invite link for your cart.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <div className="w-8 h-8 rounded-full bg-theme-gold/20 flex items-center justify-center font-bold text-theme-gold shrink-0">2</div>
+                                <div>
+                                    <h4 className="font-bold text-white mb-1">Share with Friends</h4>
+                                    <p className="text-sm text-theme-text/60">Send the link via WhatsApp, Slack, or SMS.</p>
+                                </div>
+                            </div>
+                            <div className="flex gap-4 items-start">
+                                <div className="w-8 h-8 rounded-full bg-theme-gold/20 flex items-center justify-center font-bold text-theme-gold shrink-0">3</div>
+                                <div>
+                                    <h4 className="font-bold text-white mb-1">Order Together</h4>
+                                    <p className="text-sm text-theme-text/60">Their chosen items instantly sync to your cart for one easy checkout.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button 
+                            onClick={() => {
+                                navigator.clipboard.writeText(window.location.origin + '/cart?group=' + user?._id);
+                                toast.success('Group Order Link copied to clipboard!');
+                                setShowGroupInfo(false);
+                            }}
+                            className="btn-primary w-full shadow-[0_0_20px_rgba(212,184,134,0.3)] flex justify-center gap-2"
+                        >
+                            <LinkIcon className="w-5 h-5" /> Copy Invite Link
                         </button>
                     </motion.div>
                 </div>

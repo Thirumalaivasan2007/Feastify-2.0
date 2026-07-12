@@ -3,7 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
-import { Search, Plus, ArrowRight, ArrowLeft, TicketPercent, ShoppingCart, Filter, X, Sparkles, Heart, Star, Mic } from 'lucide-react';
+import { Search, Plus, ArrowRight, ArrowLeft, TicketPercent, ShoppingCart, Filter, X, Sparkles, Heart, Star, Mic, AlertTriangle, Leaf } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
@@ -46,8 +46,12 @@ function MenuContent() {
         };
 
         recognition.onerror = (event: any) => {
-            console.error("Speech recognition error", event.error);
-            toast.error("Failed to recognize speech.", { id: 'voice' });
+            console.warn("Speech recognition issue:", event.error);
+            if (event.error === 'not-allowed' || event.error === 'audio-capture') {
+                toast.error("Microphone access denied or not found.", { id: 'voice' });
+            } else {
+                toast.error("Failed to recognize speech.", { id: 'voice' });
+            }
             setIsListening(false);
         };
 
@@ -378,6 +382,20 @@ function MenuContent() {
                                         <h3 className="text-lg font-heading font-bold mb-2 group-hover:text-theme-gold transition-colors cursor-pointer line-clamp-1" onClick={() => router.push(`/details?id=${food._id}`)}>
                                             {food.name}
                                         </h3>
+                                        {food.dietaryTags && food.dietaryTags.length > 0 && (
+                                            <div className="flex flex-wrap gap-1 mb-2">
+                                                {food.dietaryTags.map((tag: string, i: number) => (
+                                                    <span key={i} className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 border bg-green-500/10 text-green-400 border-green-500/20">
+                                                        <Leaf className="w-2.5 h-2.5" /> {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {user?.dietaryPreferences?.some((pref: string) => food.name.toLowerCase().includes(pref.toLowerCase())) && (
+                                            <div className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-full mb-2 w-fit">
+                                                <AlertTriangle className="w-2.5 h-2.5" /> Allergy Warning
+                                            </div>
+                                        )}
                                         <p className="text-xs text-theme-text/60 line-clamp-2 mb-4 flex-1 leading-relaxed">{food.description}</p>
                                         
                                         <div className="flex justify-between items-center mt-auto">
@@ -459,6 +477,20 @@ function MenuContent() {
                                                 <h3 className="text-lg font-heading font-bold mb-2 group-hover:text-theme-gold transition-colors cursor-pointer line-clamp-1" onClick={() => router.push(`/details?id=${food._id}`)}>
                                                     {food.name}
                                                 </h3>
+                                                {food.dietaryTags && food.dietaryTags.length > 0 && (
+                                                    <div className="flex flex-wrap gap-1 mb-2">
+                                                        {food.dietaryTags.map((tag: string, i: number) => (
+                                                            <span key={i} className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 border bg-green-500/10 text-green-400 border-green-500/20">
+                                                                <Leaf className="w-2.5 h-2.5" /> {tag}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                                {user?.dietaryPreferences?.some((pref: string) => food.name.toLowerCase().includes(pref.toLowerCase())) && (
+                                                    <div className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-full mb-2 w-fit">
+                                                        <AlertTriangle className="w-2.5 h-2.5" /> Allergy Warning
+                                                    </div>
+                                                )}
                                                 <p className="text-xs text-theme-text/60 line-clamp-2 mb-4 flex-1 leading-relaxed">{food.description}</p>
                                                 
                                                 <div className="flex justify-between items-center mt-auto">

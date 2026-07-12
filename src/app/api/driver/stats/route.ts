@@ -23,11 +23,31 @@ export async function GET(req: Request) {
             orderStatus: { $in: ['Out for Delivery'] }
         });
         
+        // Calculate earnings dynamically from delivered orders (assuming a flat rate of ₹40 per delivery for demo)
+        const deliveredOrdersCount = await Order.countDocuments({
+            driverId: driverId,
+            orderStatus: 'Delivered'
+        });
+        const calculatedEarnings = (driver.earnings || 0) + (deliveredOrdersCount * 40);
+        
+        const recentDeliveredOrders = await Order.find({
+            driverId: driverId,
+            orderStatus: 'Delivered'
+        }).sort({ timestamp: -1 }).limit(5);
+
+        const recentPayouts = recentDeliveredOrders.map(o => ({
+            id: o._id,
+            amount: 40, // Base payout per delivery
+            date: o.timestamp,
+            status: 'Paid out successfully'
+        }));
+
         return NextResponse.json({
             success: true,
-            totalDeliveries: driver.totalDeliveries || 0,
-            earnings: driver.earnings || 0,
-            activeDeliveries
+            totalDeliveries: (driver.totalDeliveries || 0) + deliveredOrdersCount,
+            earnings: calculatedEarnings,
+            activeDeliveries,
+            recentPayouts
         });
     } catch (err: any) {
         return NextResponse.json({ success: false, message: err.message }, { status: 500 });

@@ -11,7 +11,13 @@ const userSchema = new Schema({
     loyaltyTier: { type: String, enum: ['Gold', 'Platinum', 'Black'], default: 'Gold' },
     favorites: [{ type: Schema.Types.ObjectId, ref: 'Food' }],
     totalDeliveries: { type: Number, default: 0 },
-    earnings: { type: Number, default: 0 }
+    earnings: { type: Number, default: 0 },
+    // Phase 1 Features
+    isFeastifyPrime: { type: Boolean, default: false },
+    walletBalance: { type: Number, default: 0 },
+    dietaryPreferences: [{ type: String }],
+    badges: [{ type: String }],
+    biometricId: { type: String, default: null }
 }, { timestamps: true });
 
 userSchema.pre('save', async function() {
@@ -41,7 +47,16 @@ const foodSchema = new Schema({
         rating: { type: Number, required: true, min: 1, max: 5 },
         comment: { type: String, required: true },
         createdAt: { type: Date, default: Date.now }
-    }]
+    }],
+    // Phase 1 Features
+    arModelUrl: { type: String, default: null },
+    ecoPackaging: { type: Boolean, default: true },
+    calories: { type: Number, default: 0 },
+    macros: {
+        protein: { type: Number, default: 0 },
+        carbs: { type: Number, default: 0 },
+        fat: { type: Number, default: 0 }
+    }
 }, { timestamps: true });
 
 export const Food = mongoose.models.Food || mongoose.model('Food', foodSchema);
@@ -75,7 +90,19 @@ const orderSchema = new Schema({
     appliedCoupon: { type: String, default: null },
     driverId: { type: String, default: null },
     driverName: { type: String, default: null },
-    deliveredAt: { type: Date, default: null }
+    deliveredAt: { type: Date, default: null },
+    // Phase 1 Features
+    scheduledDeliveryTime: { type: Date, default: null },
+    ecoPackagingRequested: { type: Boolean, default: false },
+    splitBillDetails: {
+        isSplit: { type: Boolean, default: false },
+        participants: [{ type: String }]
+    },
+    chatHistory: [{
+        sender: { type: String }, // 'customer', 'driver', 'admin'
+        message: { type: String },
+        timestamp: { type: Date, default: Date.now }
+    }]
 });
 
 export const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
@@ -93,3 +120,48 @@ const couponSchema = new Schema({
 }, { timestamps: true });
 
 export const Coupon = mongoose.models.Coupon || mongoose.model('Coupon', couponSchema);
+
+// --- DriverProfile Model ---
+const driverProfileSchema = new Schema({
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    currentShift: {
+        start: { type: Date },
+        end: { type: Date }
+    },
+    vehicleDetails: {
+        type: { type: String, default: 'Bike' },
+        licensePlate: { type: String }
+    },
+    proofOfDelivery: [{
+        orderId: { type: Schema.Types.ObjectId, ref: 'Order' },
+        imageUrl: { type: String },
+        signatureUrl: { type: String },
+        timestamp: { type: Date, default: Date.now }
+    }]
+});
+export const DriverProfile = mongoose.models.DriverProfile || mongoose.model('DriverProfile', driverProfileSchema);
+
+// --- Review Model (Sentiment Analysis) ---
+const reviewSchema = new Schema({
+    orderId: { type: Schema.Types.ObjectId, ref: 'Order' },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    rating: { type: Number, required: true },
+    comment: { type: String },
+    sentimentScore: { type: Number, default: 0 } // -1 to 1 based on AI analysis
+}, { timestamps: true });
+export const Review = mongoose.models.Review || mongoose.model('Review', reviewSchema);
+
+// --- StoreBranch Model ---
+const storeBranchSchema = new Schema({
+    name: { type: String, required: true },
+    location: {
+        lat: { type: Number },
+        lng: { type: Number },
+        address: { type: String }
+    },
+    inventory: [{
+        foodId: { type: Schema.Types.ObjectId, ref: 'Food' },
+        stock: { type: Number, default: 0 }
+    }]
+});
+export const StoreBranch = mongoose.models.StoreBranch || mongoose.model('StoreBranch', storeBranchSchema);

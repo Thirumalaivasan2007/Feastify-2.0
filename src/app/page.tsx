@@ -2,13 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { User, ShieldCheck, ArrowLeft, Loader2 } from 'lucide-react';
+import { User, ShieldCheck, ArrowLeft, Loader2, Truck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 export default function LandingPage() {
     const [step, setStep] = useState<'role' | 'login' | 'register'>('role');
-    const [role, setRole] = useState<'customer' | 'admin'>('customer');
+    const [role, setRole] = useState<'customer' | 'admin' | 'driver'>('customer');
     const [isLoading, setIsLoading] = useState(false);
     
     // Parallax mouse effect
@@ -43,7 +43,7 @@ export default function LandingPage() {
     
     const router = useRouter();
 
-    const handleRoleSelect = (selectedRole: 'customer' | 'admin') => {
+    const handleRoleSelect = (selectedRole: 'customer' | 'admin' | 'driver') => {
         setRole(selectedRole);
         setStep('login');
     };
@@ -162,17 +162,24 @@ export default function LandingPage() {
                                 className="space-y-6"
                             >
                                 <h3 className="text-2xl font-heading font-semibold text-center text-white">Select Your Portal</h3>
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <button 
                                         onClick={() => handleRoleSelect('customer')}
-                                        className="flex flex-col items-center justify-center gap-4 p-6 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
+                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
                                     >
                                         <User className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
                                         <span className="font-semibold text-white/80 group-hover:text-theme-gold">Customer</span>
                                     </button>
                                     <button 
+                                        onClick={() => handleRoleSelect('driver')}
+                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
+                                    >
+                                        <Truck className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
+                                        <span className="font-semibold text-white/80 group-hover:text-theme-gold">Driver</span>
+                                    </button>
+                                    <button 
                                         onClick={() => handleRoleSelect('admin')}
-                                        className="flex flex-col items-center justify-center gap-4 p-6 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
+                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
                                     >
                                         <ShieldCheck className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
                                         <span className="font-semibold text-white/80 group-hover:text-theme-gold">Admin</span>

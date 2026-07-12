@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
-import { PackageSearch, TrendingUp, Users, DollarSign, CheckCircle, Clock, Edit2, Trash2, Plus, ArrowRight, ArrowLeft } from 'lucide-react';
+import { PackageSearch, TrendingUp, Users, DollarSign, CheckCircle, Clock, Edit2, Trash2, Plus, ArrowRight, ArrowLeft, Map, Zap, Truck, ShieldUser, ThermometerSun, AlertTriangle, Play, Pause, BadgeIndianRupee, BellRing, Send } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
@@ -39,6 +39,7 @@ export default function AdminDashboard() {
 
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [newCategoryName, setNewCategoryName] = useState('');
+    const [showInviteModal, setShowInviteModal] = useState(false);
 
     const [confirmConfig, setConfirmConfig] = useState({ isOpen: false, title: '', message: '', onConfirm: () => {} });
 
@@ -118,6 +119,63 @@ export default function AdminDashboard() {
                 } finally {
                     setConfirmConfig({ ...confirmConfig, isOpen: false });
                 }
+            }
+        });
+    };
+
+    const handleInviteSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const password = formData.get('password');
+        const role = formData.get('role');
+
+        try {
+            toast.loading('Inviting staff member...', { id: 'inviteToast' });
+            const res = await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password, role })
+            });
+            const data = await res.json();
+            
+            if (data.success) {
+                toast.success('Staff invited successfully!', { id: 'inviteToast' });
+                setShowInviteModal(false);
+                fetchAdminData(); // Refresh the list
+            } else {
+                toast.error(data.message || 'Failed to invite staff', { id: 'inviteToast' });
+            }
+        } catch (err) {
+            console.error(err);
+            toast.error('Connection error', { id: 'inviteToast' });
+        }
+    };
+
+    const handleStaffRemoval = async (userId: string, staffName: string) => {
+        setConfirmConfig({
+            isOpen: true,
+            title: 'Remove Staff Member',
+            message: `Are you absolutely sure you want to revoke system access for ${staffName}? They will no longer be able to log in.`,
+            onConfirm: async () => {
+                try {
+                    toast.loading('Removing staff...', { id: 'removeToast' });
+                    const res = await fetch(`/api/users?userId=${userId}`, {
+                        method: 'DELETE',
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        toast.success(`Staff member removed!`, { id: 'removeToast' });
+                        fetchAdminData();
+                    } else {
+                        toast.error(data.message || 'Failed to remove staff', { id: 'removeToast' });
+                    }
+                } catch (err) {
+                    console.error(err);
+                    toast.error('Connection error', { id: 'removeToast' });
+                }
+                setConfirmConfig({ ...confirmConfig, isOpen: false });
             }
         });
     };
@@ -259,14 +317,20 @@ export default function AdminDashboard() {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                     <h1 className="text-4xl font-heading font-extrabold">Admin <span className="text-gradient">Control Panel</span></h1>
-                    <div className="flex gap-2 p-1 bg-white/5 rounded-full border border-white/10 w-fit">
-                        {['orders', 'menu', 'users', 'kds'].map(tab => (
+                    <div className="flex flex-wrap gap-2 p-1 bg-white/5 rounded-full border border-white/10 w-fit">
+                        {['orders', 'menu', 'users', 'kds', 'heatmap', 'pricing', 'fleet', 'staff', 'campaigns'].map(tab => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
-                                className={`px-8 py-2.5 rounded-full font-bold text-sm capitalize transition-all duration-300 ${activeTab === tab ? 'bg-gradient-gold text-[#040A07] shadow-[0_0_20px_rgba(212,184,134,0.3)]' : 'text-theme-text/60 hover:text-theme-gold hover:bg-white/5'}`}
+                                className={`px-6 py-2.5 rounded-full font-bold text-xs uppercase tracking-widest transition-all duration-300 flex items-center gap-2 ${activeTab === tab ? 'bg-gradient-gold text-[#040A07] shadow-[0_0_20px_rgba(212,184,134,0.3)]' : 'text-theme-text/60 hover:text-theme-gold hover:bg-white/5'}`}
                             >
-                                {tab === 'kds' ? 'Kitchen (KDS)' : tab}
+                                {tab === 'kds' && 'Kitchen'}
+                                {tab === 'heatmap' && <><ThermometerSun className="w-3.5 h-3.5"/> Heatmap</>}
+                                {tab === 'pricing' && <><BadgeIndianRupee className="w-3.5 h-3.5"/> AI Pricing</>}
+                                {tab === 'fleet' && <><Truck className="w-3.5 h-3.5"/> Fleet</>}
+                                {tab === 'staff' && <><ShieldUser className="w-3.5 h-3.5"/> Staff</>}
+                                {tab === 'campaigns' && <><BellRing className="w-3.5 h-3.5"/> Campaigns</>}
+                                {!['kds', 'heatmap', 'pricing', 'fleet', 'staff', 'campaigns'].includes(tab) && tab}
                             </button>
                         ))}
                     </div>
@@ -298,8 +362,8 @@ export default function AdminDashboard() {
                                 <div className="absolute -top-4 -right-4 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl group-hover:bg-blue-500/20 transition-all duration-700"></div>
                                 <div className="absolute top-4 right-4 p-4 opacity-20 group-hover:scale-110 group-hover:opacity-40 transition-all duration-500"><Users className="w-12 h-12 text-blue-500" /></div>
                                 <h3 className="text-theme-text/60 text-sm font-bold uppercase tracking-widest mb-4">Online vs COD</h3>
-                                <div className="text-xl font-bold text-white/90 mb-1">Online: <span className="text-theme-gold">₹{stats.online.toFixed(2)}</span></div>
-                                <div className="text-xl font-bold text-white/90">COD: <span className="text-theme-gold">₹{stats.cod.toFixed(2)}</span></div>
+                                <div className="text-xl font-bold text-theme-text/90 mb-1">Online: <span className="text-theme-gold">₹{stats.online.toFixed(2)}</span></div>
+                                <div className="text-xl font-bold text-theme-text/90">COD: <span className="text-theme-gold">₹{stats.cod.toFixed(2)}</span></div>
                             </div>
                         </div>
 
@@ -308,7 +372,7 @@ export default function AdminDashboard() {
                             <Link href="/admin/analytics" className="glass-panel px-6 py-4 rounded-xl border border-theme-border/50 flex items-center gap-4 hover:border-theme-gold/50 hover:bg-white/5 transition-all group">
                                 <TrendingUp className="w-6 h-6 text-theme-gold group-hover:scale-110 transition-transform" />
                                 <div className="text-left">
-                                    <div className="font-bold text-white/90">View Analytics & Charts</div>
+                                    <div className="font-bold text-theme-text/90">View Analytics & Charts</div>
                                     <div className="text-xs text-theme-text/50">Detailed revenue breakdown</div>
                                 </div>
                                 <ArrowRight className="w-5 h-5 text-theme-text/40 group-hover:text-theme-gold group-hover:translate-x-1 transition-all ml-2" />
@@ -343,7 +407,7 @@ export default function AdminDashboard() {
                                                     {order._id.slice(-8).toUpperCase()}
                                                 </td>
                                                 <td className="p-6 border-y border-white/10 group-hover:border-theme-gold/50">
-                                                    <p className="font-bold text-white">{order.customerDetails.firstName} {order.customerDetails.lastName}</p>
+                                                    <p className="font-bold text-theme-text">{order.customerDetails.firstName} {order.customerDetails.lastName}</p>
                                                     <p className="text-xs text-theme-text/50 mt-1">{order.customerEmail}</p>
                                                 </td>
                                                 <td className="p-6 border-y border-white/10 group-hover:border-theme-gold/50 text-sm">
@@ -355,7 +419,7 @@ export default function AdminDashboard() {
                                                     ₹{order.totalAmount.toFixed(2)}
                                                 </td>
                                                 <td className="p-6 font-bold text-xs uppercase tracking-wider border-y border-white/10 group-hover:border-theme-gold/50">
-                                                    <span className="bg-white/10 px-3 py-1.5 rounded-md border border-white/10 text-white/80">{order.paymentMethod}</span>
+                                                    <span className="bg-white/10 px-3 py-1.5 rounded-md border border-white/10 text-theme-text/80">{order.paymentMethod}</span>
                                                 </td>
                                                 <td className="p-6 border-y border-white/10 group-hover:border-theme-gold/50">
                                                     <span className={`status-badge w-fit shadow-inner ${
@@ -381,7 +445,7 @@ export default function AdminDashboard() {
                                                         <option value="Delivered">Delivered</option>
                                                         <option value="Cancelled">Cancelled</option>
                                                     </select>
-                                                    <button onClick={() => deleteOrder(order._id)} className="p-3 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-500">
+                                                    <button onClick={() => deleteOrder(order._id)} className="p-3 bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-theme-text rounded-xl transition-all duration-300 border border-red-500/20 hover:border-red-500">
                                                         <Trash2 className="w-5 h-5" />
                                                     </button>
                                                 </td>
@@ -389,7 +453,7 @@ export default function AdminDashboard() {
                                         ))}
                                     </tbody>
                                 </table>
-                                {orders.length === 0 && <div className="text-center p-12 text-white/50">No orders found.</div>}
+                                {orders.length === 0 && <div className="text-center p-12 text-theme-text/50">No orders found.</div>}
                             </div>
                         </div>
                     </motion.div>
@@ -429,7 +493,7 @@ export default function AdminDashboard() {
                                         <ArrowLeft className="w-6 h-6" />
                                     </button>
                                     <div>
-                                        <h2 className="text-3xl font-bold font-heading text-white">{selectedCategory}</h2>
+                                        <h2 className="text-3xl font-bold font-heading text-theme-text">{selectedCategory}</h2>
                                         <p className="text-theme-text/60 text-sm mt-1">{categoryGridItems.length} items available</p>
                                     </div>
                                 </div>
@@ -462,20 +526,20 @@ export default function AdminDashboard() {
                                                 <p className="text-xs text-theme-text/60 line-clamp-2 mb-4 flex-1 leading-relaxed">{food.description}</p>
                                                 
                                                 <div className="flex justify-between items-center mt-auto">
-                                                    <span className="text-xl font-extrabold text-white/90">
+                                                    <span className="text-xl font-extrabold text-theme-text/90">
                                                         <span className="text-theme-gold text-base mr-1">₹</span>
                                                         {food.price.toFixed(2)}
                                                     </span>
                                                     <div className="flex justify-end gap-2">
                                                         <button 
                                                             onClick={() => { setEditingFood(food); setImageBase64(food.imageUrl); setShowFoodModal(true); }}
-                                                            className="bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-blue-500/20 hover:border-blue-500"
+                                                            className="bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-theme-text p-2.5 rounded-full transition-all duration-300 border border-blue-500/20 hover:border-blue-500"
                                                         >
                                                             <Edit2 className="w-5 h-5" />
                                                         </button>
                                                         <button 
                                                             onClick={() => deleteFood(food._id)}
-                                                            className="bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-red-500/20 hover:border-red-500"
+                                                            className="bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-theme-text p-2.5 rounded-full transition-all duration-300 border border-red-500/20 hover:border-red-500"
                                                         >
                                                             <Trash2 className="w-5 h-5" />
                                                         </button>
@@ -497,12 +561,12 @@ export default function AdminDashboard() {
                                     className="w-full"
                                 >
                                     <div className="flex justify-between items-center mb-6 px-2">
-                                        <h2 className="text-2xl md:text-3xl font-bold font-heading text-white/90 tracking-wide">
+                                        <h2 className="text-2xl md:text-3xl font-bold font-heading text-theme-text/90 tracking-wide">
                                             {category.name}
                                         </h2>
                                         <button 
                                             onClick={() => setSelectedCategory(category.name)}
-                                            className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg transition-colors group flex items-center gap-2 font-bold text-sm"
+                                            className="bg-blue-600 hover:bg-blue-500 text-theme-text px-4 py-2 rounded-full shadow-lg transition-colors group flex items-center gap-2 font-bold text-sm"
                                         >
                                             View All
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -534,20 +598,20 @@ export default function AdminDashboard() {
                                                     <p className="text-xs text-theme-text/60 line-clamp-2 mb-4 flex-1 leading-relaxed">{food.description}</p>
                                                     
                                                     <div className="flex justify-between items-center mt-auto">
-                                                        <span className="text-xl font-extrabold text-white/90">
+                                                        <span className="text-xl font-extrabold text-theme-text/90">
                                                             <span className="text-theme-gold text-base mr-1">₹</span>
                                                             {food.price.toFixed(2)}
                                                         </span>
                                                         <div className="flex justify-end gap-2">
                                                             <button 
                                                                 onClick={() => { setEditingFood(food); setImageBase64(food.imageUrl); setShowFoodModal(true); }}
-                                                                className="bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-blue-500/20 hover:border-blue-500"
+                                                                className="bg-blue-500/10 text-blue-400 hover:bg-blue-500 hover:text-theme-text p-2.5 rounded-full transition-all duration-300 border border-blue-500/20 hover:border-blue-500"
                                                             >
                                                                 <Edit2 className="w-5 h-5" />
                                                             </button>
                                                             <button 
                                                                 onClick={() => deleteFood(food._id)}
-                                                                className="bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white p-2.5 rounded-full transition-all duration-300 border border-red-500/20 hover:border-red-500"
+                                                                className="bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-theme-text p-2.5 rounded-full transition-all duration-300 border border-red-500/20 hover:border-red-500"
                                                             >
                                                                 <Trash2 className="w-5 h-5" />
                                                             </button>
@@ -559,7 +623,7 @@ export default function AdminDashboard() {
                                     </div>
                                 </motion.div>
                             ))}
-                            {groupedFoods.length === 0 && <div className="text-center p-12 text-white/50">No dishes found. Add some!</div>}
+                            {groupedFoods.length === 0 && <div className="text-center p-12 text-theme-text/50">No dishes found. Add some!</div>}
                         </div>
                         )}
                     </motion.div>
@@ -583,10 +647,10 @@ export default function AdminDashboard() {
                                     <tbody>
                                         {users.map(u => (
                                             <tr key={u._id} className="bg-theme-surface/40 hover:bg-theme-surface-hover transition-all duration-300 shadow-sm hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] group">
-                                                <td className="p-6 pl-8 font-bold text-white/90 text-lg rounded-l-2xl border-y border-l border-theme-border/30 group-hover:border-theme-gold/30">{u.name}</td>
+                                                <td className="p-6 pl-8 font-bold text-theme-text/90 text-lg rounded-l-2xl border-y border-l border-theme-border/30 group-hover:border-theme-gold/30">{u.name}</td>
                                                 <td className="p-6 text-theme-text/80 font-medium border-y border-theme-border/30 group-hover:border-theme-gold/30">{u.email}</td>
                                                 <td className="p-6 border-y border-theme-border/30 group-hover:border-theme-gold/30">
-                                                    <span className={`status-badge w-fit shadow-inner ${u.role === 'admin' ? 'bg-theme-gold/10 text-theme-gold border-theme-gold/30' : 'bg-white/5 text-white/70 border-white/10'}`}>
+                                                    <span className={`status-badge w-fit shadow-inner ${u.role === 'admin' ? 'bg-theme-gold/10 text-theme-gold border-theme-gold/30' : 'bg-white/5 text-theme-text/70 border-white/10'}`}>
                                                         {u.role === 'admin' && <span className="w-2 h-2 rounded-full bg-theme-gold animate-pulse"></span>}
                                                         {u.role}
                                                     </span>
@@ -596,6 +660,244 @@ export default function AdminDashboard() {
                                         ))}
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+                    </motion.div>
+
+                )}
+
+                {/* Heatmap Tab */}
+                {activeTab === 'heatmap' && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="flex justify-between items-end mb-8">
+                            <div>
+                                <h2 className="text-3xl font-bold font-heading mb-2">Demand Heatmap</h2>
+                                <p className="text-theme-text/60">AI-Predicted Order Volume by Hour & Region</p>
+                            </div>
+                            <div className="flex gap-4">
+                                <div className="glass-panel px-4 py-2 rounded-xl flex items-center gap-2 border-red-500/30 bg-red-500/10 text-red-400 font-bold text-sm">
+                                    <AlertTriangle className="w-4 h-4" /> High Demand Alert: Downtown
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div className="grid lg:grid-cols-3 gap-8">
+                            <div className="lg:col-span-2 glass-panel p-8 rounded-3xl border border-theme-border/50">
+                                <h3 className="font-bold mb-6 flex items-center gap-2"><Map className="w-5 h-5 text-theme-gold" /> Live Activity Map</h3>
+                                <div className="w-full h-80 bg-[#040A07] rounded-2xl relative overflow-hidden border border-white/5 flex items-center justify-center" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '30px 30px', opacity: 0.8 }}>
+                                    {/* Mock Heatmap Blurs */}
+                                    <div className="absolute top-[30%] left-[40%] w-40 h-40 bg-red-500/40 rounded-full blur-[40px] animate-pulse"></div>
+                                    <div className="absolute top-[60%] left-[70%] w-32 h-32 bg-orange-500/30 rounded-full blur-[30px] animate-pulse" style={{ animationDelay: '1s' }}></div>
+                                    <div className="absolute top-[20%] left-[20%] w-24 h-24 bg-yellow-500/20 rounded-full blur-[20px] animate-pulse" style={{ animationDelay: '2s' }}></div>
+                                    <span className="absolute z-10 text-theme-text/40 font-mono tracking-widest uppercase text-xs font-bold">Simulated Region Map</span>
+                                </div>
+                            </div>
+                            
+                            <div className="space-y-6">
+                                <div className="glass-panel p-6 rounded-3xl border border-theme-border/50">
+                                    <h3 className="font-bold mb-4">Predictive Inventory</h3>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1 font-bold">
+                                                <span className="text-theme-text">Truffle Oil</span>
+                                                <span className="text-red-400">Low (Est. 2 hrs left)</span>
+                                            </div>
+                                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                                <div className="w-[15%] h-full bg-red-500 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="flex justify-between text-sm mb-1 font-bold">
+                                                <span className="text-theme-text">Saffron</span>
+                                                <span className="text-yellow-400">Medium</span>
+                                            </div>
+                                            <div className="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                                <div className="w-[45%] h-full bg-yellow-500 rounded-full"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button className="w-full mt-6 bg-white/5 hover:bg-white/10 border border-white/10 py-2 rounded-xl text-sm font-bold transition-colors">Auto-Order Stock</button>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* AI Pricing Tab */}
+                {activeTab === 'pricing' && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="flex justify-between items-end mb-8">
+                            <div>
+                                <h2 className="text-3xl font-bold font-heading mb-2">AI Dynamic Pricing</h2>
+                                <p className="text-theme-text/60">Surge logic and margin optimization.</p>
+                            </div>
+                            <button className="btn-primary flex items-center gap-2"><Zap className="w-4 h-4"/> Enable Global Surge (1.2x)</button>
+                        </div>
+                        
+                        <div className="glass-panel rounded-3xl border border-theme-border/50 overflow-hidden">
+                            <table className="w-full text-left border-separate border-spacing-y-4 p-4">
+                                <thead>
+                                    <tr className="text-theme-text/50 uppercase text-xs tracking-widest font-bold">
+                                        <th className="p-4 pl-8">Item</th>
+                                        <th className="p-4">Base Price</th>
+                                        <th className="p-4">AI Suggested (Surge)</th>
+                                        <th className="p-4 text-right pr-8">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr className="bg-white/5 hover:bg-white/10 transition-colors">
+                                        <td className="p-4 pl-8 font-bold text-theme-text rounded-l-xl">Truffle Pasta</td>
+                                        <td className="p-4 text-theme-text/70">₹450.00</td>
+                                        <td className="p-4 text-theme-gold font-bold flex items-center gap-2">₹540.00 <TrendingUp className="w-4 h-4 text-green-500" /></td>
+                                        <td className="p-4 text-right pr-8 rounded-r-xl">
+                                            <button className="px-4 py-1.5 bg-green-500/20 text-green-400 font-bold text-xs rounded-full border border-green-500/30">Auto-Applied</button>
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-white/5 hover:bg-white/10 transition-colors">
+                                        <td className="p-4 pl-8 font-bold text-theme-text rounded-l-xl">Saffron Biryani</td>
+                                        <td className="p-4 text-theme-text/70">₹650.00</td>
+                                        <td className="p-4 text-theme-gold font-bold">₹700.00</td>
+                                        <td className="p-4 text-right pr-8 rounded-r-xl">
+                                            <button className="px-4 py-1.5 bg-white/10 text-theme-text/60 hover:text-theme-text font-bold text-xs rounded-full border border-white/20 transition-colors">Apply</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* Fleet Management Tab */}
+                {activeTab === 'fleet' && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="flex justify-between items-end mb-8">
+                            <div>
+                                <h2 className="text-3xl font-bold font-heading mb-2">Fleet Management</h2>
+                                <p className="text-theme-text/60">Live driver tracking and assignment.</p>
+                            </div>
+                        </div>
+                        <div className="grid lg:grid-cols-2 gap-8">
+                            <div className="glass-panel p-6 rounded-3xl border border-theme-border/50">
+                                <h3 className="font-bold mb-6">Active Drivers</h3>
+                                <div className="space-y-4">
+                                    {users.filter((u: any) => u.role === 'driver').length > 0 ? (
+                                        users.filter((u: any) => u.role === 'driver').map((driver: any) => (
+                                            <div key={driver._id} className="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/10">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center"><Truck className="w-5 h-5 text-green-500" /></div>
+                                                    <div>
+                                                        <p className="font-bold text-theme-text">{driver.name}</p>
+                                                        <p className="text-xs text-theme-text/60">Total Deliveries: {driver.totalDeliveries || 0}</p>
+                                                    </div>
+                                                </div>
+                                                <button className="text-theme-gold text-xs font-bold bg-theme-gold/10 px-3 py-1.5 rounded-full border border-theme-gold/30">Track</button>
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="text-theme-text/50 p-4 text-center">No active drivers</div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="glass-panel p-6 rounded-3xl border border-theme-border/50 flex flex-col items-center justify-center text-center min-h-[300px]">
+                                <Map className="w-16 h-16 text-theme-text/20 mb-4" />
+                                <h3 className="font-bold text-xl mb-2 text-theme-text/80">Live Map View</h3>
+                                <p className="text-theme-text/50 max-w-xs text-sm">Select a driver from the list to view their exact real-time coordinates.</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* Staff Tab */}
+                {activeTab === 'staff' && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="flex justify-between items-end mb-8">
+                            <div>
+                                <h2 className="text-3xl font-bold font-heading mb-2">Staff Directory</h2>
+                                <p className="text-theme-text/60">Manage roles and permissions.</p>
+                            </div>
+                            <button onClick={() => setShowInviteModal(true)} className="btn-primary flex items-center gap-2"><Plus className="w-4 h-4"/> Invite Staff</button>
+                        </div>
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {users.filter((u: any) => u.role === 'admin' || u.role === 'driver').length > 0 ? (
+                                users.filter((u: any) => u.role === 'admin' || u.role === 'driver').map((staff: any) => (
+                                    <div key={staff._id} className="glass-panel p-6 rounded-3xl border border-theme-border/50">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg border ${
+                                                staff.role === 'admin' ? 'bg-theme-gold/20 text-theme-gold border-theme-gold/40' : 'bg-blue-500/20 text-blue-500 border-blue-500/40'
+                                            }`}>
+                                                {staff.name.substring(0, 2).toUpperCase()}
+                                            </div>
+                                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest ${
+                                                staff.role === 'admin' ? 'bg-white/10 text-theme-text/70' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                            }`}>
+                                                {staff.role}
+                                            </span>
+                                        </div>
+                                        <h3 className="font-bold text-lg text-theme-text mb-1">{staff.name}</h3>
+                                        <p className="text-xs text-theme-text/50 mb-4">{staff.email}</p>
+                                        <div className="flex gap-2">
+                                            <button onClick={() => handleStaffRemoval(staff._id, staff.name)} className="flex-1 bg-red-500/10 text-red-500 py-2 rounded-xl text-xs font-bold hover:bg-red-500/20 transition-colors border border-red-500/20">
+                                                Revoke Access
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="col-span-full text-center text-theme-text/50 p-8">No staff found</div>
+                            )}
+                        </div>
+                    </motion.div>
+                )}
+
+                {/* Campaigns Tab */}
+                {activeTab === 'campaigns' && (
+                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <div className="flex justify-between items-end mb-8">
+                            <div>
+                                <h2 className="text-3xl font-bold font-heading mb-2">Push Campaigns</h2>
+                                <p className="text-theme-text/60">Send targeted offers to inactive users.</p>
+                            </div>
+                        </div>
+                        <div className="grid lg:grid-cols-2 gap-8">
+                            <div className="glass-panel p-8 rounded-3xl border border-theme-border/50">
+                                <h3 className="font-bold mb-6 text-xl">Create New Campaign</h3>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="text-xs uppercase font-bold text-theme-text/50 mb-2 block">Target Audience</label>
+                                        <select className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-sm font-bold text-theme-text">
+                                            <option>Inactive for 7+ days (1,240 users)</option>
+                                            <option>VIP Members (450 users)</option>
+                                            <option>All Users (8,902 users)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="text-xs uppercase font-bold text-theme-text/50 mb-2 block">Message Title</label>
+                                        <input type="text" placeholder="e.g., We Miss You! 🍔" className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-sm text-theme-text" />
+                                    </div>
+                                    <div>
+                                        <label className="text-xs uppercase font-bold text-theme-text/50 mb-2 block">Message Body</label>
+                                        <textarea placeholder="e.g., Use code COMEBACK for 20% off your next order." className="w-full bg-[#111] border border-white/10 rounded-xl p-3 text-sm text-theme-text h-24 resize-none"></textarea>
+                                    </div>
+                                    <button className="w-full bg-theme-gold text-black font-bold py-3 rounded-xl flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(212,184,134,0.4)] transition-all">
+                                        <Send className="w-4 h-4" /> Send Push Notification
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="space-y-6">
+                                <h3 className="font-bold text-xl">Recent Campaigns</h3>
+                                <div className="glass-panel p-6 rounded-3xl border border-theme-border/50 flex flex-col gap-4">
+                                    <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h4 className="font-bold text-theme-text">Weekend Treat! 🍕</h4>
+                                            <span className="text-[10px] bg-green-500/20 text-green-400 px-2 py-1 rounded-full border border-green-500/30 uppercase font-bold">Sent</span>
+                                        </div>
+                                        <p className="text-sm text-theme-text/60 mb-3">Get a free dessert with orders over ₹1000.</p>
+                                        <div className="flex justify-between text-xs font-bold text-theme-text/40">
+                                            <span>Target: All Users</span>
+                                            <span>Converted: 14%</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
@@ -638,11 +940,11 @@ export default function AdminDashboard() {
                         <form onSubmit={handleFoodSubmit} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label className="block text-xs font-bold text-white/50 uppercase mb-2">Dish Name</label>
+                                    <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Dish Name</label>
                                     <input type="text" name="name" defaultValue={editingFood?.name} className="input-field w-full" required />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold text-white/50 uppercase mb-2">Category</label>
+                                    <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Category</label>
                                     <select name="category" defaultValue={editingFood?.category} className="input-field w-full bg-[#111]" required>
                                         <option value="">Select Category</option>
                                         {categories.map(c => <option key={c._id} value={c.name}>{c.name}</option>)}
@@ -651,7 +953,7 @@ export default function AdminDashboard() {
                             </div>
                             
                             <div>
-                                <label className="block text-xs font-bold text-white/50 uppercase mb-2">Upload Image</label>
+                                <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Upload Image</label>
                                 <div className="flex items-center gap-4">
                                     {imageBase64 && (
                                         <div className="w-16 h-16 rounded-lg overflow-hidden border border-white/20 shrink-0">
@@ -670,27 +972,63 @@ export default function AdminDashboard() {
 
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div>
-                                    <label className="block text-xs font-bold text-white/50 uppercase mb-2">Price (₹)</label>
+                                    <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Price (₹)</label>
                                     <input type="number" step="0.01" name="price" defaultValue={editingFood?.price} className="input-field w-full" required />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold text-white/50 uppercase mb-2">Prep Time</label>
+                                    <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Prep Time</label>
                                     <input type="text" name="prepTime" defaultValue={editingFood?.prepTime || '25-30 Mins'} className="input-field w-full" required />
                                 </div>
                                 <div>
-                                    <label className="block text-xs font-bold text-white/50 uppercase mb-2">Tag/Badge</label>
+                                    <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Tag/Badge</label>
                                     <input type="text" name="tag" defaultValue={editingFood?.tag || 'Fresh Items'} className="input-field w-full" />
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-white/50 uppercase mb-2">Description</label>
+                                <label className="block text-xs font-bold text-theme-text/50 uppercase mb-2">Description</label>
                                 <textarea name="description" defaultValue={editingFood?.description} className="input-field w-full h-24 resize-none" required></textarea>
                             </div>
 
                             <div className="flex gap-4 pt-4">
                                 <button type="button" onClick={() => setShowFoodModal(false)} className="btn-outline flex-1">Cancel</button>
                                 <button type="submit" className="btn-primary flex-1">{editingFood ? 'Save Changes' : 'Add Dish'}</button>
+                            </div>
+                        </form>
+                    </motion.div>
+                </div>
+            )}
+
+            {/* Invite Staff Modal */}
+            {showInviteModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="bg-theme-surface border border-theme-border/50 p-8 rounded-[2rem] w-full max-w-md relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-theme-gold/10 rounded-full blur-3xl pointer-events-none" />
+                        <h2 className="text-2xl font-bold mb-6 font-heading">Invite New Staff</h2>
+                        <form onSubmit={handleInviteSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-sm text-theme-text/70 mb-1 ml-2">Full Name</label>
+                                <input type="text" name="name" className="input-field w-full" required placeholder="John Doe" />
+                            </div>
+                            <div>
+                                <label className="block text-sm text-theme-text/70 mb-1 ml-2">Email Address</label>
+                                <input type="email" name="email" className="input-field w-full" required placeholder="john@feastify.com" />
+                            </div>
+                            <div>
+                                <label className="block text-sm text-theme-text/70 mb-1 ml-2">Temporary Password</label>
+                                <input type="password" name="password" className="input-field w-full" required placeholder="••••••••" />
+                            </div>
+                            <div>
+                                <label className="block text-sm text-theme-text/70 mb-1 ml-2">Role</label>
+                                <select name="role" className="input-field w-full" required>
+                                    <option value="driver">Delivery Driver</option>
+                                    <option value="admin">System Admin</option>
+                                </select>
+                            </div>
+
+                            <div className="flex gap-4 pt-4">
+                                <button type="button" onClick={() => setShowInviteModal(false)} className="btn-outline flex-1">Cancel</button>
+                                <button type="submit" className="btn-primary flex-1">Send Invite</button>
                             </div>
                         </form>
                     </motion.div>

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { connectDB } from '@/lib/db';
 import { Food } from '@/lib/models';
 
+export const revalidate = 60; // Edge Caching: Revalidate every 60 seconds
+
 export async function GET() {
     try {
         await connectDB();
