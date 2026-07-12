@@ -62,28 +62,31 @@ export default function UltraPremiumLanding() {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.2 }}
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 shadow-2xl"
+                            className="flex items-center gap-4 mb-6 text-theme-gold uppercase tracking-widest text-xs font-semibold"
                         >
-                            <Sparkles className="w-5 h-5 text-theme-gold" />
-                            <span className="text-sm font-semibold tracking-widest uppercase text-white/90">The Future of Dining</span>
+                            <span>Established 2024</span>
+                            <div className="w-12 h-[1px] bg-theme-gold/50"></div>
+                            <span>Premium Dining</span>
                         </motion.div>
                         
                         <motion.h1 
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.4 }}
-                            className="text-6xl md:text-8xl lg:text-9xl font-heading font-extrabold tracking-tighter leading-[0.9] mb-8"
+                            className="text-6xl md:text-7xl lg:text-8xl font-heading tracking-tight leading-[1.1] mb-8"
                         >
-                            Feastify
+                            <span className="text-white block font-medium">Savor the</span>
+                            <span className="text-theme-gold italic block font-normal drop-shadow-[0_0_15px_rgba(212,184,134,0.4)]">Pure Artistry</span>
+                            <span className="text-white block font-medium">of Feastify</span>
                         </motion.h1>
                         
                         <motion.p 
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.6 }}
-                            className="text-xl md:text-3xl font-light text-white/60 mb-12 max-w-2xl leading-relaxed"
+                            className="text-lg md:text-xl font-sans font-light text-white/70 mb-12 max-w-xl leading-relaxed"
                         >
-                            Experience the collision of Michelin-star culinary artistry and bleeding-edge technology.
+                            Feastify delivers Michelin-star culinary artistry straight to your door, masterfully prepared to unlock rich complex flavors. Personalize your experience in our interactive 3D portal.
                         </motion.p>
                         
                         <motion.div
