@@ -52,49 +52,80 @@ export default function UltraPremiumLanding() {
                 <motion.div style={{ y: floatY3 }} className="absolute top-[40%] right-[20%] w-32 h-32 bg-white/5 rounded-full blur-[40px] z-0 pointer-events-none" />
 
                 {/* Hero Content */}
-                <div className="relative z-10 text-center max-w-5xl mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.2 }}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 shadow-2xl"
-                    >
-                        <Sparkles className="w-5 h-5 text-theme-gold" />
-                        <span className="text-sm font-semibold tracking-widest uppercase text-white/90">The Future of Dining</span>
-                    </motion.div>
-                    
-                    <motion.h1 
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.4 }}
-                        className="text-6xl md:text-8xl lg:text-9xl font-heading font-extrabold tracking-tighter leading-[0.9] mb-8"
-                    >
-                        Feastify
-                    </motion.h1>
-                    
-                    <motion.p 
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 1, delay: 0.6 }}
-                        className="text-xl md:text-3xl font-light text-white/60 mb-12 max-w-3xl mx-auto leading-relaxed"
-                    >
-                        Experience the collision of Michelin-star culinary artistry and bleeding-edge technology.
-                    </motion.p>
-                    
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1, delay: 0.8, type: "spring", bounce: 0.5 }}
-                    >
-                        <button 
-                            onClick={() => router.push('/login')}
-                            className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-theme-gold-dark via-theme-gold-light to-theme-gold text-[#040A07] rounded-full font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 shadow-[0_0_20px_rgba(212,184,134,0.3)] hover:shadow-[0_0_40px_rgba(243,229,200,0.5)]"
+                <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    {/* Left Column - Text */}
+                    <div className="text-left">
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, delay: 0.2 }}
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 shadow-2xl"
                         >
-                            <span className="relative z-10">Enter the Portal</span>
-                            <div className="relative z-10 w-10 h-10 rounded-full bg-[#040A07] flex items-center justify-center group-hover:translate-x-2 transition-transform duration-300">
-                                <ArrowRight className="w-5 h-5 text-theme-gold" />
-                            </div>
-                        </button>
+                            <Sparkles className="w-5 h-5 text-theme-gold" />
+                            <span className="text-sm font-semibold tracking-widest uppercase text-white/90">The Future of Dining</span>
+                        </motion.div>
+                        
+                        <motion.h1 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, delay: 0.4 }}
+                            className="text-6xl md:text-8xl lg:text-9xl font-heading font-extrabold tracking-tighter leading-[0.9] mb-8"
+                        >
+                            Feastify
+                        </motion.h1>
+                        
+                        <motion.p 
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, delay: 0.6 }}
+                            className="text-xl md:text-3xl font-light text-white/60 mb-12 max-w-2xl leading-relaxed"
+                        >
+                            Experience the collision of Michelin-star culinary artistry and bleeding-edge technology.
+                        </motion.p>
+                        
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 1, delay: 0.8, type: "spring", bounce: 0.5 }}
+                        >
+                            <button 
+                                onClick={() => router.push('/login')}
+                                className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-theme-gold-dark via-theme-gold-light to-theme-gold text-[#040A07] rounded-full font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 shadow-[0_0_20px_rgba(212,184,134,0.3)] hover:shadow-[0_0_40px_rgba(243,229,200,0.5)]"
+                            >
+                                <span className="relative z-10">Enter the Portal</span>
+                                <div className="relative z-10 w-10 h-10 rounded-full bg-[#040A07] flex items-center justify-center group-hover:translate-x-2 transition-transform duration-300">
+                                    <ArrowRight className="w-5 h-5 text-theme-gold" />
+                                </div>
+                            </button>
+                        </motion.div>
+                    </div>
+
+                    {/* Right Column - 3D Motion Element */}
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1.2, delay: 0.6, type: "spring" }}
+                        className="relative hidden lg:flex items-center justify-center"
+                    >
+                        {/* Floating animation container */}
+                        <motion.div
+                            animate={{ 
+                                y: [-15, 15, -15],
+                                rotate: [-2, 2, -2]
+                            }}
+                            transition={{
+                                duration: 6,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            className="relative w-full max-w-[500px] aspect-square"
+                        >
+                            <img 
+                                src="/hero-food.png" 
+                                alt="Premium 3D Food" 
+                                className="w-full h-full object-contain mix-blend-lighten opacity-90 drop-shadow-[0_0_50px_rgba(212,184,134,0.15)]"
+                            />
+                        </motion.div>
                     </motion.div>
                 </div>
                 
