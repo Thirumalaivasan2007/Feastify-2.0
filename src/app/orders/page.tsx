@@ -78,10 +78,10 @@ export default function OrdersPage() {
     }, [orders.length]);
 
     const getStatusDetails = (status: string) => {
-        if (status === 'Delivered') return { icon: <CheckCircle2 className="w-5 h-5 text-green-500" />, bg: 'bg-green-500/10', border: 'border-green-500/20', text: 'text-green-400', progress: 100 };
+        if (status === 'Delivered') return { icon: <CheckCircle2 className="w-5 h-5 text-theme-gold" />, bg: 'bg-theme-gold/10', border: 'border-theme-gold/20', text: 'text-green-400', progress: 100 };
         if (status === 'Cancelled') return { icon: <XCircle className="w-5 h-5 text-red-500" />, bg: 'bg-red-500/10', border: 'border-red-500/20', text: 'text-red-400', progress: 100 };
         if (status === 'Out for Delivery') return { icon: <Package className="w-5 h-5 text-blue-400" />, bg: 'bg-blue-500/10', border: 'border-blue-500/20', text: 'text-blue-400', progress: 75 };
-        if (status === 'Ready') return { icon: <Package className="w-5 h-5 text-green-400" />, bg: 'bg-green-500/10', border: 'border-green-500/20', text: 'text-green-400', progress: 60 };
+        if (status === 'Ready') return { icon: <Package className="w-5 h-5 text-green-400" />, bg: 'bg-theme-gold/10', border: 'border-theme-gold/20', text: 'text-green-400', progress: 60 };
         if (status === 'Preparing') return { icon: <Search className="w-5 h-5 text-orange-400" />, bg: 'bg-orange-500/10', border: 'border-orange-500/20', text: 'text-orange-400', progress: 50 };
         return { icon: <Clock className="w-5 h-5 text-theme-gold" />, bg: 'bg-theme-gold/10', border: 'border-theme-gold/20', text: 'text-theme-gold', progress: 25 };
     };
@@ -122,7 +122,7 @@ export default function OrdersPage() {
             
             <div className="max-w-5xl mx-auto px-6 relative z-10">
                 <div className="flex items-center justify-between mb-10">
-                    <h1 className="text-4xl md:text-5xl font-heading font-extrabold">My <span className="text-gradient">Orders</span></h1>
+                    <h1 className="text-4xl font-heading md:text-5xl font-heading font-light">My <span className="text-gradient">Orders</span></h1>
                     <div className="hidden md:flex items-center gap-2 text-theme-text/50 text-sm font-bold bg-theme-surface px-4 py-2 rounded-full border border-theme-border/50 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
                         <Calendar className="w-4 h-4" /> 
                         {new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
@@ -137,7 +137,7 @@ export default function OrdersPage() {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="glass-panel p-16 text-center rounded-[3rem] border border-theme-border/50 flex flex-col items-center justify-center gap-6"
+                        className="glass-panel p-16 text-center rounded-none border border-theme-border/50 flex flex-col items-center justify-center gap-6"
                     >
                         <div className="w-24 h-24 rounded-full bg-theme-gold/10 flex items-center justify-center mb-2">
                             <Package className="w-12 h-12 text-theme-gold opacity-50" />
@@ -227,7 +227,7 @@ export default function OrdersPage() {
                                         <div className="flex flex-col justify-between items-start lg:items-end min-w-[200px] border-t lg:border-t-0 lg:border-l border-theme-border/50 pt-6 lg:pt-0 lg:pl-8">
                                             <div className="w-full flex justify-between lg:block lg:text-right mb-6">
                                                 <div className="text-sm font-semibold text-theme-text/50 uppercase tracking-wider mb-1">Total Amount</div>
-                                                <div className="text-4xl font-heading font-extrabold text-theme-gold">₹{order.totalAmount.toFixed(2)}</div>
+                                                <div className="text-4xl font-heading font-heading font-light text-theme-gold">₹{order.totalAmount.toFixed(2)}</div>
                                             </div>
                                             
                                             <div className="flex flex-col lg:items-end gap-3 w-full">

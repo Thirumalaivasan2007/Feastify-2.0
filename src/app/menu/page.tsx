@@ -301,7 +301,7 @@ function MenuContent() {
                     className="flex flex-col md:flex-row justify-between items-center gap-6 mb-8"
                 >
                     <div>
-                        <h1 className="text-4xl md:text-5xl font-heading font-extrabold mb-2 text-gradient">Explore Our Menu</h1>
+                        <h1 className="text-4xl font-heading md:text-5xl font-heading font-light mb-2 text-gradient">Explore Our Menu</h1>
                         <p className="text-theme-text/60 font-medium">Discover culinary masterpieces crafted for you.</p>
                     </div>
                     
@@ -339,26 +339,26 @@ function MenuContent() {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="w-full mb-12 rounded-3xl overflow-hidden relative shadow-2xl"
+                        className="w-full mb-12 rounded-none overflow-hidden relative shadow-2xl"
                     >
-                        <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-500 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
+                        <div className="bg-[#040A07] border border-theme-gold/30 p-8 md:p-12 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
                             {/* Decorative background elements */}
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
+                            <div className="absolute top-0 right-0 w-64 h-64 bg-theme-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-theme-gold/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
                             
                             <div className="flex items-center gap-6 z-10 mb-6 md:mb-0">
-                                <div className="p-4 bg-white/20 backdrop-blur-md rounded-2xl hidden md:block">
-                                    <TicketPercent className="w-12 h-12 text-white" />
+                                <div className="p-4 bg-theme-gold/10 backdrop-blur-md rounded-none hidden md:block border border-theme-gold/20">
+                                    <TicketPercent className="w-12 h-12 text-theme-gold" />
                                 </div>
                                 <div>
-                                    <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-2 drop-shadow-md">Exclusive coupon for you!</h2>
-                                    <p className="text-xl text-white/90 font-medium">Flat 10% Off up to ₹100 on your first order</p>
+                                    <h2 className="text-3xl font-heading md:text-5xl font-heading font-light text-white mb-2 drop-shadow-md">Exclusive Collection</h2>
+                                    <p className="text-xl text-theme-gold font-medium italic">Flat 10% Off up to ₹100 on your first experience</p>
                                 </div>
                             </div>
                             
                             <div className="z-10 w-full md:w-auto">
-                                <button className="w-full md:w-auto bg-white text-indigo-700 font-bold px-8 py-4 rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:scale-105 transition-transform duration-300">
-                                    Apply Now
+                                <button className="w-full md:w-auto px-8 py-4 text-xs font-semibold uppercase tracking-widest text-[#040A07] bg-theme-gold hover:bg-[#d4af37] transition-all duration-300 shadow-md font-sans rounded-none gold-shine">
+                                    Claim Privilege
                                 </button>
                             </div>
                         </div>
@@ -370,7 +370,7 @@ function MenuContent() {
                     <div className="mb-12">
                         <div className="flex items-center gap-3 mb-6">
                             <Sparkles className="w-6 h-6 text-theme-gold" />
-                            <h2 className="text-2xl font-heading font-extrabold text-white">Curated For You</h2>
+                            <h2 className="text-2xl font-heading font-light text-white">Curated For You</h2>
                         </div>
                         <div className="flex gap-6 overflow-x-auto pb-6 snap-x hide-scrollbar">
                             {recommendedFoods.map((food, idx) => (
@@ -379,11 +379,11 @@ function MenuContent() {
                                     initial={{ opacity: 0, x: 50 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="min-w-[300px] md:min-w-[350px] snap-center shrink-0 glass-panel p-4 rounded-[2rem] border border-theme-border/50 hover:border-theme-gold/30 group relative overflow-hidden cursor-pointer"
+                                    className="min-w-[300px] md:min-w-[350px] snap-center shrink-0 glass-panel p-4 rounded-none border border-theme-border/50 hover:border-theme-gold/30 group relative overflow-hidden cursor-pointer"
                                     onClick={() => router.push(`/menu/details?id=${food._id}`)}
                                 >
                                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-theme-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                                    <div className="aspect-video w-full rounded-2xl bg-black/40 mb-4 overflow-hidden relative">
+                                    <div className="aspect-video w-full rounded-none bg-black/40 mb-4 overflow-hidden relative">
                                         <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style={{ backgroundImage: `url(${food.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80'})` }}></div>
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
                                         <div className="absolute bottom-4 left-4">
@@ -394,7 +394,7 @@ function MenuContent() {
                                         <h3 className="text-xl font-bold text-white mb-1 truncate">{food.name}</h3>
                                         <p className="text-sm text-theme-text/60 line-clamp-1 mb-4">{food.description}</p>
                                         <div className="flex justify-between items-center">
-                                            <div className="text-xl font-heading font-extrabold text-theme-gold">₹{food.price}</div>
+                                            <div className="text-xl font-heading font-light text-theme-gold">₹{food.price}</div>
                                             <button 
                                                 onClick={(e) => { e.stopPropagation(); addToCart(food); toast.success('Added to cart!'); }}
                                                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-theme-gold hover:text-black transition-all"
@@ -428,7 +428,7 @@ function MenuContent() {
                                 <ArrowLeft className="w-6 h-6" />
                             </button>
                             <div>
-                                <h2 className="text-3xl font-bold font-heading text-white">{selectedCategory}</h2>
+                                <h2 className="text-3xl font-heading font-bold font-heading text-white">{selectedCategory}</h2>
                                 <p className="text-theme-text/60 text-sm mt-1">{categoryGridItems.length} items available</p>
                             </div>
                         </div>
@@ -440,7 +440,7 @@ function MenuContent() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.05 }}
                                     key={food._id}
-                                    className="glass-card rounded-2xl overflow-hidden group flex flex-col"
+                                    className="glass-card rounded-none overflow-hidden group flex flex-col"
                                 >
                                     <div className="relative h-48 overflow-hidden bg-theme-surface cursor-pointer" onClick={() => router.push(`/details?id=${food._id}`)}>
                                         <div className="absolute inset-0 bg-theme-gold/5 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
@@ -453,7 +453,7 @@ function MenuContent() {
                                             {food.tag || selectedCategory}
                                         </div>
                                         {food.reviews && food.reviews.length > 0 && (
-                                            <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold border border-white/10 text-white z-20 flex items-center gap-1 shadow-lg">
+                                            <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-none text-xs font-bold border border-white/10 text-white z-20 flex items-center gap-1 shadow-lg">
                                                 <Star className="w-3 h-3 text-theme-gold fill-current" />
                                                 {(food.reviews.reduce((acc: number, rev: any) => acc + rev.rating, 0) / food.reviews.length).toFixed(1)}
                                             </div>
@@ -467,21 +467,21 @@ function MenuContent() {
                                         {food.dietaryTags && food.dietaryTags.length > 0 && (
                                             <div className="flex flex-wrap gap-1 mb-2">
                                                 {food.dietaryTags.map((tag: string, i: number) => (
-                                                    <span key={i} className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 border bg-green-500/10 text-green-400 border-green-500/20">
+                                                    <span key={i} className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 flex items-center gap-1 border bg-theme-gold/5 text-theme-gold border-theme-gold/20">
                                                         <Leaf className="w-2.5 h-2.5" /> {tag}
                                                     </span>
                                                 ))}
                                             </div>
                                         )}
                                         {user?.dietaryPreferences?.some((pref: string) => food.name.toLowerCase().includes(pref.toLowerCase())) && (
-                                            <div className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-red-400 bg-red-500/10 border border-red-500/20 px-2 py-0.5 rounded-full mb-2 w-fit">
+                                            <div className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/5 border border-amber-500/20 px-2 py-0.5 mb-2 w-fit">
                                                 <AlertTriangle className="w-2.5 h-2.5" /> Allergy Warning
                                             </div>
                                         )}
                                         <p className="text-xs text-theme-text/60 line-clamp-2 mb-4 flex-1 leading-relaxed">{food.description}</p>
                                         
                                         <div className="flex justify-between items-center mt-auto">
-                                            <span className="text-xl font-extrabold text-white/90">
+                                            <span className="text-xl font-light text-white/90">
                                                 <span className="text-theme-gold text-base mr-1">₹</span>
                                                 {food.price.toFixed(2)}
                                             </span>
@@ -529,7 +529,7 @@ function MenuContent() {
                                             initial={{ opacity: 0, x: 30 }}
                                             animate={{ opacity: 1, x: 0 }}
                                             transition={{ delay: catIdx * 0.1 + idx * 0.05, duration: 0.5 }}
-                                            className="min-w-[280px] max-w-[280px] sm:min-w-[300px] sm:max-w-[300px] snap-start glass-card rounded-2xl overflow-hidden group flex flex-col flex-shrink-0"
+                                            className="min-w-[280px] max-w-[280px] sm:min-w-[300px] sm:max-w-[300px] snap-start glass-card rounded-none overflow-hidden group flex flex-col flex-shrink-0"
                                         >
                                             <div className="relative h-48 overflow-hidden bg-theme-surface cursor-pointer" onClick={() => router.push(`/details?id=${food._id}`)}>
                                                 <div className="absolute inset-0 bg-theme-gold/5 group-hover:bg-transparent transition-colors z-10 pointer-events-none"></div>
@@ -548,7 +548,7 @@ function MenuContent() {
                                                     <Heart className={`w-4 h-4 ${favorites.includes(food._id) ? 'fill-red-500 text-red-500' : 'text-white'}`} />
                                                 </button>
                                                 {food.reviews && food.reviews.length > 0 && (
-                                                    <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold border border-white/10 text-white z-20 flex items-center gap-1 shadow-lg">
+                                                    <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-2 py-1 rounded-none text-xs font-bold border border-white/10 text-white z-20 flex items-center gap-1 shadow-lg">
                                                         <Star className="w-3 h-3 text-theme-gold fill-current" />
                                                         {(food.reviews.reduce((acc: number, rev: any) => acc + rev.rating, 0) / food.reviews.length).toFixed(1)}
                                                     </div>
@@ -562,7 +562,7 @@ function MenuContent() {
                                                 {food.dietaryTags && food.dietaryTags.length > 0 && (
                                                     <div className="flex flex-wrap gap-1 mb-2">
                                                         {food.dietaryTags.map((tag: string, i: number) => (
-                                                            <span key={i} className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 border bg-green-500/10 text-green-400 border-green-500/20">
+                                                            <span key={i} className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full flex items-center gap-1 border bg-theme-gold/10 text-green-400 border-theme-gold/20">
                                                                 <Leaf className="w-2.5 h-2.5" /> {tag}
                                                             </span>
                                                         ))}
@@ -576,7 +576,7 @@ function MenuContent() {
                                                 <p className="text-xs text-theme-text/60 line-clamp-2 mb-4 flex-1 leading-relaxed">{food.description}</p>
                                                 
                                                 <div className="flex justify-between items-center mt-auto">
-                                                    <span className="text-xl font-extrabold text-white/90">
+                                                    <span className="text-xl font-light text-white/90">
                                                         <span className="text-theme-gold text-base mr-1">₹</span>
                                                         {food.price.toFixed(2)}
                                                     </span>
@@ -622,7 +622,7 @@ function MenuContent() {
                             </div>
                             <div className="flex flex-col text-left">
                                 <span className="text-xs font-bold uppercase tracking-wider opacity-70">View Cart</span>
-                                <span className="text-base font-extrabold leading-none">₹{cartTotal.toFixed(2)}</span>
+                                <span className="text-base font-light leading-none">₹{cartTotal.toFixed(2)}</span>
                             </div>
                         </button>
                     </motion.div>
@@ -637,7 +637,7 @@ function MenuContent() {
                 {/* Drawer */}
                 <div className={`absolute top-0 right-0 w-full md:w-[400px] h-full bg-[#040A07]/95 border-l border-theme-border/50 backdrop-blur-xl shadow-2xl p-8 flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${showFilters ? 'translate-x-0' : 'translate-x-full'}`}>
                     <div className="flex justify-between items-center mb-10">
-                        <h2 className="text-2xl font-heading font-extrabold text-white flex items-center gap-2">
+                        <h2 className="text-2xl font-heading font-light text-white flex items-center gap-2">
                             <Filter className="w-6 h-6 text-theme-gold" /> Filters
                         </h2>
                         <button onClick={() => setShowFilters(false)} className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center transition-colors">
@@ -654,7 +654,7 @@ function MenuContent() {
                                     <button 
                                         key={diet}
                                         onClick={() => setDietaryFilter(diet)}
-                                        className={`px-4 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 border ${
+                                        className={`px-4 py-2.5 rounded-none text-sm font-bold transition-all duration-300 border ${
                                             dietaryFilter === diet 
                                             ? 'bg-theme-gold text-black border-theme-gold shadow-[0_0_15px_rgba(212,184,134,0.3)]' 
                                             : 'bg-white/5 text-white border-white/10 hover:border-theme-gold/30'
@@ -679,7 +679,7 @@ function MenuContent() {
                                 step="50"
                                 value={maxPrice}
                                 onChange={(e) => setMaxPrice(parseInt(e.target.value))}
-                                className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-theme-gold"
+                                className="w-full h-2 bg-white/10 rounded-none appearance-none cursor-pointer accent-theme-gold"
                             />
                             <div className="flex justify-between text-xs text-white/30 mt-2 font-mono">
                                 <span>₹50</span>
@@ -692,13 +692,13 @@ function MenuContent() {
                     <div className="mt-8 pt-6 border-t border-theme-border/50 flex gap-4">
                         <button 
                             onClick={() => { setDietaryFilter('All'); setMaxPrice(2000); }}
-                            className="flex-1 py-4 rounded-xl font-bold text-white/70 hover:text-white hover:bg-white/5 transition-all"
+                            className="flex-1 py-4 rounded-none font-bold text-white/70 hover:text-white hover:bg-white/5 transition-all"
                         >
                             Reset
                         </button>
                         <button 
                             onClick={() => setShowFilters(false)}
-                            className="flex-[2] py-4 rounded-xl font-bold bg-theme-gold hover:bg-theme-gold-light text-[#040A07] transition-all shadow-[0_0_20px_rgba(212,184,134,0.2)]"
+                            className="flex-[2] py-4 rounded-none font-bold bg-theme-gold hover:bg-theme-gold-light text-[#040A07] transition-all shadow-[0_0_20px_rgba(212,184,134,0.2)]"
                         >
                             Apply Filters
                         </button>

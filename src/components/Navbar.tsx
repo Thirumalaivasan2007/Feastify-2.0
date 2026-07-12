@@ -137,7 +137,7 @@ export default function Navbar() {
                 <div className="flex items-center space-x-4 md:space-x-6 z-50">
                     {currentTime && pathname !== '/' && (
                         <div className="hidden md:flex flex-col items-end text-theme-text/80 mr-2 border-r border-white/10 pr-4">
-                            <span className="text-base font-mono font-extrabold tracking-widest text-theme-gold">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
+                            <span className="text-base font-mono font-light tracking-widest text-theme-gold">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
                             <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-theme-text/60">{currentTime.toLocaleDateString()}</span>
                         </div>
                     )}
@@ -209,31 +209,31 @@ export default function Navbar() {
             >
                 <div className="flex flex-col items-center gap-10 w-full px-8 max-w-sm">
                     {user?.role !== 'admin' && (
-                        <button onClick={() => handleMobileNavigation('/menu')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors">
+                        <button onClick={() => handleMobileNavigation('/menu')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors">
                             Menu
                         </button>
                     )}
                     
                     {user?.role === 'admin' ? (
-                        <button onClick={() => handleMobileNavigation('/admin')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors">
+                        <button onClick={() => handleMobileNavigation('/admin')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors">
                             Admin Dashboard
                         </button>
                     ) : user?.role === 'driver' ? (
-                        <button onClick={() => handleMobileNavigation('/driver')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors">
+                        <button onClick={() => handleMobileNavigation('/driver')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors">
                             Driver Panel
                         </button>
                     ) : user ? (
                         <>
-                            <button onClick={() => handleMobileNavigation('/favorites')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors">
+                            <button onClick={() => handleMobileNavigation('/favorites')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors">
                                 Favorites
                             </button>
-                            <button onClick={() => handleMobileNavigation('/orders')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors">
+                            <button onClick={() => handleMobileNavigation('/orders')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors">
                                 Orders
                             </button>
-                            <button onClick={() => handleMobileNavigation('/profile')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors">
+                            <button onClick={() => handleMobileNavigation('/profile')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors">
                                 Profile
                             </button>
-                            <button onClick={() => handleMobileNavigation('/social')} className="text-3xl font-serif text-theme-text hover:text-theme-gold transition-colors flex items-center gap-2">
+                            <button onClick={() => handleMobileNavigation('/social')} className="text-3xl font-heading font-serif text-theme-text hover:text-theme-gold transition-colors flex items-center gap-2">
                                 <Star className="w-6 h-6 text-theme-gold" /> Social
                             </button>
                         </>

@@ -127,7 +127,7 @@ export default function LandingPage() {
                 <div className="w-24 h-24 border border-theme-gold/20 rounded-full"></div>
             </motion.div>
             <motion.div style={{ x: y1, y: x2 }} className="absolute bottom-[20%] right-[25%] z-0 pointer-events-none opacity-20">
-                <div className="w-12 h-12 bg-white/20 rounded-lg rotate-45"></div>
+                <div className="w-12 h-12 bg-white/20 rounded-none rotate-45"></div>
             </motion.div>
 
             <div className="z-10 w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-12 p-8 items-center">
@@ -137,7 +137,7 @@ export default function LandingPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    <h1 className="text-5xl md:text-7xl font-heading font-extrabold tracking-tight text-white mb-6">
+                    <h1 className="text-5xl md:text-7xl font-heading font-light tracking-tight text-white mb-6">
                         Feastify
                     </h1>
                     <p className="text-xl lg:text-2xl text-white/70 font-light max-w-md">
@@ -150,7 +150,7 @@ export default function LandingPage() {
                     initial={{ opacity: 0, x: 50 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-                    className="glass-panel p-8 lg:p-12 rounded-3xl w-full max-w-md mx-auto"
+                    className="glass-panel p-8 lg:p-12 rounded-none w-full max-w-md mx-auto"
                 >
                     <AnimatePresence mode="wait">
                         {step === 'role' && (
@@ -165,21 +165,21 @@ export default function LandingPage() {
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <button 
                                         onClick={() => handleRoleSelect('customer')}
-                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
+                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-none hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
                                     >
                                         <User className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
                                         <span className="font-semibold text-white/80 group-hover:text-theme-gold">Customer</span>
                                     </button>
                                     <button 
                                         onClick={() => handleRoleSelect('driver')}
-                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
+                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-none hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
                                     >
                                         <Truck className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
                                         <span className="font-semibold text-white/80 group-hover:text-theme-gold">Driver</span>
                                     </button>
                                     <button 
                                         onClick={() => handleRoleSelect('admin')}
-                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-2xl hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
+                                        className="flex flex-col items-center justify-center gap-4 p-4 glass-card rounded-none hover:bg-theme-gold/10 hover:border-theme-gold/30 group"
                                     >
                                         <ShieldCheck className="w-8 h-8 text-white/50 group-hover:text-theme-gold transition-colors" />
                                         <span className="font-semibold text-white/80 group-hover:text-theme-gold">Admin</span>
@@ -199,7 +199,7 @@ export default function LandingPage() {
                                 <button onClick={() => setStep('role')} className="text-white/50 hover:text-white flex items-center gap-2 text-sm transition-colors">
                                     <ArrowLeft className="w-4 h-4" /> Back
                                 </button>
-                                <h3 className="text-3xl font-heading font-bold">
+                                <h3 className="text-3xl font-heading font-heading font-bold">
                                     {role === 'admin' ? (
                                         <>Admin <span className="text-gradient">Portal</span></>
                                     ) : (
@@ -215,7 +215,7 @@ export default function LandingPage() {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
                                             placeholder="name@example.com"
                                         />
                                     </div>
@@ -226,7 +226,7 @@ export default function LandingPage() {
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
                                             placeholder="••••••••"
                                         />
                                     </div>
@@ -261,7 +261,7 @@ export default function LandingPage() {
                                 <button onClick={() => setStep('login')} className="text-white/50 hover:text-white flex items-center gap-2 text-sm transition-colors">
                                     <ArrowLeft className="w-4 h-4" /> Back to Login
                                 </button>
-                                <h3 className="text-3xl font-heading font-bold">Create Account</h3>
+                                <h3 className="text-3xl font-heading font-heading font-bold">Create Account</h3>
                                 
                                 <form onSubmit={handleRegister} className="space-y-4">
                                     <div className="space-y-1">
@@ -271,7 +271,7 @@ export default function LandingPage() {
                                             value={name}
                                             onChange={(e) => setName(e.target.value)}
                                             required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
                                             placeholder="John Doe"
                                         />
                                     </div>
@@ -282,7 +282,7 @@ export default function LandingPage() {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
                                             placeholder="name@example.com"
                                         />
                                     </div>
@@ -293,7 +293,7 @@ export default function LandingPage() {
                                             value={password}
                                             onChange={(e) => setPassword(e.target.value)}
                                             required 
-                                            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
+                                            className="w-full bg-white/5 border border-white/10 rounded-none px-4 py-3 text-white focus:outline-none focus:border-theme-gold focus:bg-white/10 transition-all"
                                             placeholder="••••••••"
                                         />
                                     </div>

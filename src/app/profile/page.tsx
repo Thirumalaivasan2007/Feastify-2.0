@@ -80,7 +80,7 @@ export default function ProfilePage() {
             <Navbar />
             
             <div className="max-w-5xl mx-auto px-6 relative z-10">
-                <h1 className="text-4xl md:text-5xl font-heading font-extrabold mb-10">Account <span className="text-gradient">Settings</span></h1>
+                <h1 className="text-4xl font-heading md:text-5xl font-heading font-light mb-10">Account <span className="text-gradient">Settings</span></h1>
                 
                 {user && (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -103,7 +103,7 @@ export default function ProfilePage() {
                                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-theme-gold/20 rounded-full blur-[30px] -z-10 group-hover:bg-theme-gold/40 transition-colors duration-500"></div>
                                 </div>
                                 
-                                <h2 className="text-2xl font-heading font-extrabold mb-2 text-white/90">{user.name}</h2>
+                                <h2 className="text-2xl font-heading font-light mb-2 text-white/90">{user.name}</h2>
                                 <p className="text-theme-text/50 font-medium text-sm flex items-center gap-2 mb-6 justify-center">
                                     <Mail className="w-4 h-4" /> {user.email}
                                 </p>
@@ -120,13 +120,13 @@ export default function ProfilePage() {
                                 <div className="w-full mt-10 space-y-3">
                                     <button 
                                         onClick={() => setActiveTab('settings')} 
-                                        className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 flex items-center gap-3 ${activeTab === 'settings' ? 'bg-theme-surface text-theme-gold border border-theme-gold/30' : 'bg-transparent text-white/50 hover:bg-theme-surface/50 border border-transparent'}`}
+                                        className={`w-full py-3 px-4 rounded-none font-bold transition-all duration-300 flex items-center gap-3 ${activeTab === 'settings' ? 'bg-theme-surface text-theme-gold border border-theme-gold/30' : 'bg-transparent text-white/50 hover:bg-theme-surface/50 border border-transparent'}`}
                                     >
                                         <Settings className="w-5 h-5" /> Account Settings
                                     </button>
                                     <button 
                                         onClick={() => setActiveTab('orders')} 
-                                        className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-300 flex items-center gap-3 ${activeTab === 'orders' ? 'bg-theme-surface text-theme-gold border border-theme-gold/30' : 'bg-transparent text-white/50 hover:bg-theme-surface/50 border border-transparent'}`}
+                                        className={`w-full py-3 px-4 rounded-none font-bold transition-all duration-300 flex items-center gap-3 ${activeTab === 'orders' ? 'bg-theme-surface text-theme-gold border border-theme-gold/30' : 'bg-transparent text-white/50 hover:bg-theme-surface/50 border border-transparent'}`}
                                     >
                                         <Package className="w-5 h-5" /> Order History
                                         {orders.length > 0 && (
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                                 <div className="w-full mt-6">
                                     <button 
                                         onClick={handleLogout} 
-                                        className="w-full py-4 rounded-xl border border-red-500/20 bg-red-500/10 text-red-400 font-bold hover:bg-red-500 hover:text-[#040A07] transition-all duration-300 flex items-center justify-center gap-2 uppercase tracking-wider text-xs"
+                                        className="w-full py-4 rounded-none border border-red-500/20 bg-red-500/10 text-red-400 font-bold hover:bg-red-500 hover:text-[#040A07] transition-all duration-300 flex items-center justify-center gap-2 uppercase tracking-wider text-xs"
                                     >
                                         <LogOut className="w-4 h-4" /> Logout
                                     </button>
@@ -148,7 +148,7 @@ export default function ProfilePage() {
                             {/* Feastify VIP Card */}
                             <div className="mt-8 relative group perspective-1000">
                                 <motion.div 
-                                    className="relative w-full aspect-[1.586/1] rounded-2xl overflow-hidden shadow-2xl transition-transform duration-500 transform-gpu group-hover:rotate-x-12 group-hover:rotate-y-12"
+                                    className="relative w-full aspect-[1.586/1] rounded-none overflow-hidden shadow-2xl transition-transform duration-500 transform-gpu group-hover:rotate-x-12 group-hover:rotate-y-12"
                                     style={{
                                         background: user.loyaltyTier === 'Black' ? 'linear-gradient(135deg, #111, #000)' :
                                                     user.loyaltyTier === 'Platinum' ? 'linear-gradient(135deg, #e5e4e2, #b0b0b0)' :
@@ -162,7 +162,7 @@ export default function ProfilePage() {
                                     <div className="relative z-10 p-6 flex flex-col h-full justify-between">
                                         <div className="flex justify-between items-start">
                                             <div>
-                                                <div className="font-heading font-extrabold text-2xl tracking-wider">FEASTIFY</div>
+                                                <div className="font-heading font-light text-2xl tracking-wider">FEASTIFY</div>
                                                 <div className="text-xs font-bold uppercase tracking-widest opacity-70">{user.loyaltyTier || 'Gold'} VIP</div>
                                             </div>
                                             <div className="w-12 h-8 rounded bg-white/20 border border-white/30 backdrop-blur-md flex items-center justify-center">
@@ -172,7 +172,7 @@ export default function ProfilePage() {
                                         
                                         <div>
                                             <div className="text-xs font-mono uppercase tracking-widest opacity-70 mb-1">Feast Points</div>
-                                            <div className="font-heading font-extrabold text-4xl">{user.feastPoints || 0}</div>
+                                            <div className="font-heading font-light text-4xl">{user.feastPoints || 0}</div>
                                             <div className="text-sm font-medium opacity-80 mt-2">{user.name?.toUpperCase()}</div>
                                         </div>
                                     </div>
@@ -203,19 +203,19 @@ export default function ProfilePage() {
                                         </div>
                                         
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            <div className="bg-theme-surface p-4 rounded-2xl border border-theme-border/30">
+                                            <div className="bg-theme-surface p-4 rounded-none border border-theme-border/30">
                                                 <div className="text-xs font-bold text-theme-text/40 uppercase tracking-wider mb-1">Full Name</div>
                                                 <div className="text-white font-medium">{user.name}</div>
                                             </div>
-                                            <div className="bg-theme-surface p-4 rounded-2xl border border-theme-border/30">
+                                            <div className="bg-theme-surface p-4 rounded-none border border-theme-border/30">
                                                 <div className="text-xs font-bold text-theme-text/40 uppercase tracking-wider mb-1">Email Address</div>
                                                 <div className="text-white font-medium">{user.email}</div>
                                             </div>
-                                            <div className="bg-theme-surface p-4 rounded-2xl border border-theme-border/30">
+                                            <div className="bg-theme-surface p-4 rounded-none border border-theme-border/30">
                                                 <div className="text-xs font-bold text-theme-text/40 uppercase tracking-wider mb-1">Phone Number</div>
                                                 <div className="text-white/50 font-medium italic">Not provided</div>
                                             </div>
-                                            <div className="bg-theme-surface p-4 rounded-2xl border border-theme-border/30">
+                                            <div className="bg-theme-surface p-4 rounded-none border border-theme-border/30">
                                                 <div className="text-xs font-bold text-theme-text/40 uppercase tracking-wider mb-1">Member Since</div>
                                                 <div className="text-white font-medium">{new Date().getFullYear()}</div>
                                             </div>
@@ -226,7 +226,7 @@ export default function ProfilePage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div 
                                             onClick={handleFeatureMock}
-                                            className="glass-card p-6 rounded-[2rem] border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
+                                            className="glass-card p-6 rounded-none border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
                                         >
                                             <div className="w-12 h-12 rounded-full bg-theme-surface flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                                 <MapPin className="w-5 h-5 text-theme-gold" />
@@ -239,7 +239,7 @@ export default function ProfilePage() {
 
                                         <div 
                                             onClick={handleFeatureMock}
-                                            className="glass-card p-6 rounded-[2rem] border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
+                                            className="glass-card p-6 rounded-none border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
                                         >
                                             <div className="w-12 h-12 rounded-full bg-theme-surface flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                                 <CreditCard className="w-5 h-5 text-theme-gold" />
@@ -252,7 +252,7 @@ export default function ProfilePage() {
 
                                         <div 
                                             onClick={handleFeatureMock}
-                                            className="glass-card p-6 rounded-[2rem] border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
+                                            className="glass-card p-6 rounded-none border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
                                         >
                                             <div className="w-12 h-12 rounded-full bg-theme-surface flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                                 <Bell className="w-5 h-5 text-theme-gold" />
@@ -265,7 +265,7 @@ export default function ProfilePage() {
 
                                         <div 
                                             onClick={handleFeatureMock}
-                                            className="glass-card p-6 rounded-[2rem] border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
+                                            className="glass-card p-6 rounded-none border border-theme-border/30 hover:border-theme-gold/30 hover:bg-theme-gold/5 transition-all duration-300 cursor-pointer flex items-center gap-4 group"
                                         >
                                             <div className="w-12 h-12 rounded-full bg-theme-surface flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
                                                 <Settings className="w-5 h-5 text-theme-gold" />
@@ -301,7 +301,7 @@ export default function ProfilePage() {
                                                 const delivery = subtotal > 0 ? 40 : 0;
 
                                                 return (
-                                                    <div key={order._id} className="glass-panel relative overflow-hidden rounded-[2rem] border border-theme-border/50 transition-all hover:border-theme-gold/30 hover:shadow-[0_0_40px_rgba(212,184,134,0.1)] group">
+                                                    <div key={order._id} className="glass-panel relative overflow-hidden rounded-none border border-theme-border/50 transition-all hover:border-theme-gold/30 hover:shadow-[0_0_40px_rgba(212,184,134,0.1)] group">
                                                         {/* Status Badge & Header */}
                                                         <div className="p-6 md:p-8 border-b border-theme-border/30 bg-black/20 flex flex-col md:flex-row justify-between md:items-center gap-4">
                                                             <div>
@@ -317,7 +317,7 @@ export default function ProfilePage() {
                                                             <div className="flex items-center gap-3">
                                                                 <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest border backdrop-blur-md ${
                                                                     order.orderStatus === 'Pending' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]' :
-                                                                    order.orderStatus === 'Delivered' ? 'bg-green-500/10 text-green-500 border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.2)]' :
+                                                                    order.orderStatus === 'Delivered' ? 'bg-theme-gold/10 text-theme-gold border-green-500/30 shadow-[0_0_15px_rgba(34,197,94,0.2)]' :
                                                                     order.orderStatus === 'Cancelled' ? 'bg-red-500/10 text-red-500 border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]' :
                                                                     'bg-blue-500/10 text-blue-500 border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
                                                                 }`}>
@@ -385,7 +385,7 @@ export default function ProfilePage() {
                                                                 
                                                                 <div>
                                                                     <h4 className="text-xs font-bold uppercase tracking-widest text-theme-text/40 mb-3 border-b border-theme-border/30 pb-2">Payment Method</h4>
-                                                                    <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-sm font-medium text-white">
+                                                                    <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-none text-sm font-medium text-white">
                                                                         <CreditCard className="w-4 h-4 text-theme-gold" />
                                                                         {order.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online Payment'}
                                                                     </div>
@@ -393,7 +393,7 @@ export default function ProfilePage() {
                                                             </div>
 
                                                             {/* Column 2: Order Items & Total */}
-                                                            <div className="md:col-span-3 bg-black/20 p-6 rounded-2xl border border-white/5">
+                                                            <div className="md:col-span-3 bg-black/20 p-6 rounded-none border border-white/5">
                                                                 <h4 className="text-xs font-bold uppercase tracking-widest text-theme-text/40 mb-4 border-b border-theme-border/30 pb-2">Order Summary</h4>
                                                                 
                                                                 <div className="space-y-4 mb-6">
@@ -425,7 +425,7 @@ export default function ProfilePage() {
 
                                                                 <div className="border-t border-theme-border/50 mt-4 pt-4 flex justify-between items-center">
                                                                     <span className="font-bold text-white uppercase tracking-wider text-sm">Total Paid</span>
-                                                                    <span className="text-3xl font-extrabold text-gradient">₹{order.totalAmount?.toFixed(2)}</span>
+                                                                    <span className="text-3xl font-heading font-light text-gradient">₹{order.totalAmount?.toFixed(2)}</span>
                                                                 </div>
                                                             </div>
 

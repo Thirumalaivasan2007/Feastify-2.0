@@ -101,7 +101,7 @@ function DetailsContent() {
                     initial={{ opacity: 0, x: -50, scale: 0.95 }}
                     animate={{ opacity: 1, x: 0, scale: 1 }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
-                    className="relative h-[50vh] lg:h-[75vh] rounded-[3rem] overflow-hidden group shadow-2xl"
+                    className="relative h-[50vh] lg:h-[75vh] rounded-none overflow-hidden group shadow-2xl"
                 >
                     <div className="absolute inset-0 bg-theme-gold/10 group-hover:bg-transparent transition-colors duration-700 z-10 pointer-events-none"></div>
                     <img src={food.imageUrl} alt={food.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-[1.5s]" />
@@ -132,7 +132,7 @@ function DetailsContent() {
                         {food.category}
                     </div>
                     
-                    <h1 className="text-5xl lg:text-7xl font-heading font-extrabold leading-tight text-theme-text/90">
+                    <h1 className="text-5xl lg:text-7xl font-heading font-light leading-tight text-theme-text/90">
                         {food.name}
                     </h1>
                     
@@ -144,11 +144,11 @@ function DetailsContent() {
                         </div>
                     )}
                     
-                    <div className="text-4xl lg:text-5xl font-extrabold text-gradient inline-block">₹{food.price.toFixed(2)}</div>
+                    <div className="text-4xl font-heading lg:text-5xl font-light text-gradient inline-block">₹{food.price.toFixed(2)}</div>
                     
                     <p className="text-lg text-theme-text/70 leading-relaxed max-w-xl font-medium">{food.description}</p>
                     
-                    <div className="flex items-center gap-8 text-sm text-theme-text/60 font-bold bg-theme-surface/50 p-6 rounded-3xl border border-theme-border/50 backdrop-blur-md">
+                    <div className="flex items-center gap-8 text-sm text-theme-text/60 font-bold bg-theme-surface/50 p-6 rounded-none border border-theme-border/50 backdrop-blur-md">
                         <div className="flex items-center gap-3"><Clock className="w-6 h-6 text-theme-gold" /> Prep: {food.prepTime || '25-30 Mins'}</div>
                         <div className="w-px h-8 bg-theme-border/50"></div>
                         <div className="flex items-center gap-3"><Info className="w-6 h-6 text-blue-400" /> {food.tag || 'Fresh Items'}</div>
@@ -164,11 +164,11 @@ function DetailsContent() {
             </div>
 
             <div className="max-w-4xl mx-auto mb-20">
-                <h3 className="text-3xl font-heading font-bold mb-8 flex items-center gap-4">
+                <h3 className="text-3xl font-heading font-heading font-bold mb-8 flex items-center gap-4">
                     <Flame className="w-8 h-8 text-orange-500" />
                     AI Nutritional Breakdown
                 </h3>
-                <div className="glass-panel p-8 md:p-12 rounded-[3rem] border border-theme-border/50 bg-gradient-to-br from-black/80 to-[#0a150e]">
+                <div className="glass-panel p-8 md:p-12 rounded-none border border-theme-border/50 bg-gradient-to-br from-black/80 to-[#0a150e]">
                     <div className="grid md:grid-cols-2 gap-12 items-center">
                         <div>
                             <p className="text-theme-text/60 mb-6 leading-relaxed">Our AI has analyzed this dish to provide estimated macronutrients. Perfect for keeping track of your daily intake!</p>
@@ -223,7 +223,7 @@ function DetailsContent() {
                                     <motion.circle initial={{ strokeDasharray: "0 251" }} whileInView={{ strokeDasharray: "31 251" }} transition={{ duration: 1.5, delay: 1 }} viewport={{ once: true }} cx="50" cy="50" r="40" fill="transparent" stroke="#f87171" strokeWidth="12" strokeDashoffset="-220" />
                                 </svg>
                                 
-                                <span className="text-4xl md:text-5xl font-heading font-extrabold text-theme-text">{food.category === 'Desserts' ? '850' : '520'}</span>
+                                <span className="text-4xl font-heading md:text-5xl font-heading font-light text-theme-text">{food.category === 'Desserts' ? '850' : '520'}</span>
                                 <span className="text-xs uppercase tracking-widest text-theme-text/50 mt-1">Calories</span>
                             </motion.div>
                         </div>
@@ -232,12 +232,12 @@ function DetailsContent() {
             </div>
 
             <div className="max-w-4xl mx-auto">
-                <h3 className="text-3xl font-heading font-bold mb-8 flex items-center gap-4">
+                <h3 className="text-3xl font-heading font-heading font-bold mb-8 flex items-center gap-4">
                     Ratings & Reviews
                     <span className="text-sm bg-theme-gold/20 text-theme-gold px-3 py-1 rounded-full">{food.reviews?.length || 0}</span>
                 </h3>
 
-                <div className="glass-panel p-8 rounded-[2rem] mb-10 border border-theme-border/50">
+                <div className="glass-panel p-8 rounded-none mb-10 border border-theme-border/50">
                     <h4 className="text-xl font-bold mb-4">Write a Review</h4>
                     <form onSubmit={submitReview} className="space-y-4">
                         <div className="flex items-center gap-2 mb-4">
@@ -256,7 +256,7 @@ function DetailsContent() {
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                             placeholder="Share your experience with this dish..."
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-theme-text focus:outline-none focus:border-theme-gold focus:ring-1 focus:ring-theme-gold transition-all min-h-[120px]"
+                            className="w-full bg-white/5 border border-white/10 rounded-none p-4 text-theme-text focus:outline-none focus:border-theme-gold focus:ring-1 focus:ring-theme-gold transition-all min-h-[120px]"
                             required
                         />
                         <div className="flex justify-end">
@@ -273,13 +273,13 @@ function DetailsContent() {
 
                 <div className="space-y-6">
                     {(!food.reviews || food.reviews.length === 0) ? (
-                        <div className="text-center py-12 text-theme-text/50 bg-theme-surface/30 rounded-3xl border border-white/5">
+                        <div className="text-center py-12 text-theme-text/50 bg-theme-surface/30 rounded-none border border-white/5">
                             <Star className="w-12 h-12 mx-auto mb-4 text-theme-text/10" />
                             No reviews yet. Be the first to review!
                         </div>
                     ) : (
                         food.reviews.slice().reverse().map((rev: any, idx: number) => (
-                            <div key={idx} className="glass-panel p-6 rounded-2xl border border-white/10 hover:border-theme-gold/30 transition-colors">
+                            <div key={idx} className="glass-panel p-6 rounded-none border border-white/10 hover:border-theme-gold/30 transition-colors">
                                 <div className="flex justify-between items-start mb-4">
                                     <div>
                                         <h5 className="font-bold text-theme-text mb-1">{rev.userName}</h5>
@@ -308,7 +308,7 @@ function DetailsContent() {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="relative w-full max-w-2xl h-[70vh] border border-theme-gold/30 rounded-3xl overflow-hidden bg-[#0A0A0A]"
+                        className="relative w-full max-w-2xl h-[70vh] border border-theme-gold/30 rounded-none overflow-hidden bg-[#0A0A0A]"
                     >
                         {/* Mock Camera Background */}
                         <div className="absolute inset-0 bg-cover bg-center opacity-30" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80')" }}></div>
@@ -324,7 +324,7 @@ function DetailsContent() {
 
                         {/* AR UI Elements */}
                         <div className="absolute top-6 left-6 right-6 flex justify-between items-start pointer-events-none">
-                            <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                            <div className="bg-black/50 backdrop-blur-md px-4 py-2 rounded-none border border-white/10">
                                 <p className="text-xs text-theme-text/70 font-bold uppercase tracking-widest">AR Mode Active</p>
                                 <p className="text-theme-gold font-bold">Scanning Surface...</p>
                             </div>

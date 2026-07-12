@@ -242,7 +242,7 @@ export default function CartPage() {
             
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between md:items-end mb-8 gap-4">
-                    <h1 className="text-4xl font-heading font-extrabold">Secure <span className="text-gradient">Checkout</span></h1>
+                    <h1 className="text-4xl font-heading font-heading font-light">Secure <span className="text-gradient">Checkout</span></h1>
                     <button 
                         onClick={() => setShowGroupInfo(true)}
                         className="bg-theme-surface/50 border border-theme-border/50 hover:border-theme-gold/40 hover:bg-theme-gold/10 px-6 py-2.5 rounded-full flex items-center gap-2 text-sm font-bold text-theme-gold transition-all w-fit shadow-[0_0_15px_rgba(212,184,134,0.1)] hover:shadow-[0_0_25px_rgba(212,184,134,0.2)] backdrop-blur-md"
@@ -262,7 +262,7 @@ export default function CartPage() {
                         </button>
 
                         {/* Empty Cart Banner for Group Orders */}
-                        <div className="max-w-xl w-full bg-gradient-to-r from-theme-gold/20 to-transparent border border-theme-gold/30 rounded-[2rem] p-8 text-left relative overflow-hidden">
+                        <div className="max-w-xl w-full bg-[#040A07] border border-theme-gold/40 rounded-none p-8 text-left relative overflow-hidden">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-theme-gold/10 rounded-full blur-3xl" />
                             <Users className="w-10 h-10 text-theme-gold mb-4" />
                             <h3 className="text-2xl font-bold text-white mb-2">Ordering for a group?</h3>
@@ -285,9 +285,9 @@ export default function CartPage() {
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: idx * 0.1 }}
-                                    className="glass-card p-5 rounded-[2rem] flex items-center gap-6 group"
+                                    className="glass-card p-5 rounded-none flex items-center gap-6 group"
                                 >
-                                    <div className="relative w-24 h-24 overflow-hidden rounded-2xl">
+                                    <div className="relative w-24 h-24 overflow-hidden rounded-none">
                                         <div className="absolute inset-0 bg-theme-gold/10 group-hover:bg-transparent transition-colors z-10"></div>
                                         <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                     </div>
@@ -300,7 +300,7 @@ export default function CartPage() {
                                         <span className="font-bold w-6 text-center text-white/90">{item.quantity || 1}</span>
                                         <button onClick={() => updateQuantity(idx, 1)} className="text-theme-text/50 hover:text-theme-gold font-bold px-2 text-xl transition-colors">+</button>
                                     </div>
-                                    <button onClick={() => removeItem(idx)} className="text-red-400 hover:text-red-300 p-3 ml-2 bg-red-500/10 hover:bg-red-500/20 rounded-2xl transition-all duration-300">
+                                    <button onClick={() => removeItem(idx)} className="text-red-400 hover:text-red-300 p-3 ml-2 bg-red-500/10 hover:bg-red-500/20 rounded-none transition-all duration-300">
                                         <Trash2 className="w-5 h-5" />
                                     </button>
                                 </motion.div>
@@ -308,7 +308,7 @@ export default function CartPage() {
                             {/* Delivery Details */}
                             <div className="mt-12">
                                 <h3 className="text-2xl font-heading font-bold mb-6">Delivery Details</h3>
-                                <div className="glass-panel p-8 rounded-[2rem] space-y-6">
+                                <div className="glass-panel p-8 rounded-none space-y-6">
                                     <div>
                                         <label className="block text-sm font-bold text-theme-text/70 mb-2 uppercase tracking-wide">Phone Number</label>
                                         <div className="relative">
@@ -350,7 +350,7 @@ export default function CartPage() {
                                 <div className="grid sm:grid-cols-2 gap-6">
                                     <button 
                                         onClick={() => setPaymentMethod('COD')}
-                                        className={`p-6 rounded-[2rem] border transition-all duration-500 text-left flex items-center gap-5 relative overflow-hidden group ${paymentMethod === 'COD' ? 'border-theme-gold bg-theme-gold/5 shadow-[0_0_20px_rgba(212,184,134,0.15)]' : 'border-theme-border bg-theme-surface hover:border-theme-border-highlight'}`}
+                                        className={`p-6 rounded-none border transition-all duration-500 text-left flex items-center gap-5 relative overflow-hidden group ${paymentMethod === 'COD' ? 'border-theme-gold bg-theme-gold/5 shadow-[0_0_20px_rgba(212,184,134,0.15)]' : 'border-theme-border bg-theme-surface hover:border-theme-border-highlight'}`}
                                     >
                                         {paymentMethod === 'COD' && <div className="absolute inset-0 bg-gradient-to-r from-theme-gold/10 to-transparent pointer-events-none"></div>}
                                         <Banknote className={`w-8 h-8 z-10 transition-colors ${paymentMethod === 'COD' ? 'text-theme-gold' : 'text-theme-text/50 group-hover:text-theme-gold/70'}`} />
@@ -361,7 +361,7 @@ export default function CartPage() {
                                     </button>
                                     <button 
                                         onClick={() => setPaymentMethod('UPI')}
-                                        className={`p-6 rounded-[2rem] border transition-all duration-500 text-left flex items-center gap-5 relative overflow-hidden group ${paymentMethod === 'UPI' ? 'border-theme-gold bg-theme-gold/5 shadow-[0_0_20px_rgba(212,184,134,0.15)]' : 'border-theme-border bg-theme-surface hover:border-theme-border-highlight'}`}
+                                        className={`p-6 rounded-none border transition-all duration-500 text-left flex items-center gap-5 relative overflow-hidden group ${paymentMethod === 'UPI' ? 'border-theme-gold bg-theme-gold/5 shadow-[0_0_20px_rgba(212,184,134,0.15)]' : 'border-theme-border bg-theme-surface hover:border-theme-border-highlight'}`}
                                     >
                                         {paymentMethod === 'UPI' && <div className="absolute inset-0 bg-gradient-to-r from-theme-gold/10 to-transparent pointer-events-none"></div>}
                                         <CreditCard className={`w-8 h-8 z-10 transition-colors ${paymentMethod === 'UPI' ? 'text-theme-gold' : 'text-theme-text/50 group-hover:text-theme-gold/70'}`} />
@@ -376,7 +376,7 @@ export default function CartPage() {
                         
                         {/* Summary */}
                         <div>
-                            <div className="glass-panel p-8 rounded-[2rem] sticky top-28 relative overflow-hidden">
+                            <div className="glass-panel p-8 rounded-none sticky top-28 relative overflow-hidden">
                                 <div className="absolute -top-10 -right-10 w-40 h-40 bg-theme-gold/5 rounded-full blur-[50px] pointer-events-none"></div>
                                 <h3 className="text-2xl font-heading font-bold mb-8 text-white/90">Order Summary</h3>
                                 <div className="space-y-5 text-theme-text/70 mb-8 font-medium">
@@ -402,12 +402,12 @@ export default function CartPage() {
                                                 onChange={(e) => setPromoCode(e.target.value)}
                                                 placeholder="Enter Promo Code"
                                                 disabled={!!appliedPromo || isValidatingPromo}
-                                                className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-sm uppercase placeholder-theme-text/40 focus:border-theme-gold focus:outline-none disabled:opacity-50"
+                                                className="flex-1 bg-white/5 border border-white/10 rounded-none px-4 py-2 text-sm uppercase placeholder-theme-text/40 focus:border-theme-gold focus:outline-none disabled:opacity-50"
                                             />
                                             {appliedPromo ? (
                                                 <button 
                                                     onClick={() => { setAppliedPromo(null); setPromoCode(''); }}
-                                                    className="px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl text-sm font-bold hover:bg-red-500/20 transition-colors"
+                                                    className="px-4 py-2 bg-red-500/10 text-red-400 border border-red-500/20 rounded-none text-sm font-bold hover:bg-red-500/20 transition-colors"
                                                 >
                                                     Remove
                                                 </button>
@@ -415,7 +415,7 @@ export default function CartPage() {
                                                 <button 
                                                     onClick={handleApplyPromo}
                                                     disabled={isValidatingPromo || !promoCode.trim()}
-                                                    className="px-4 py-2 bg-theme-gold/10 text-theme-gold border border-theme-gold/30 rounded-xl text-sm font-bold hover:bg-theme-gold/20 transition-colors disabled:opacity-50 flex items-center justify-center min-w-[80px]"
+                                                    className="px-4 py-2 bg-theme-gold/10 text-theme-gold border border-theme-gold/30 rounded-none text-sm font-bold hover:bg-theme-gold/20 transition-colors disabled:opacity-50 flex items-center justify-center min-w-[80px]"
                                                 >
                                                     {isValidatingPromo ? <div className="w-4 h-4 border-2 border-theme-gold border-t-transparent rounded-full animate-spin"></div> : 'Apply'}
                                                 </button>
@@ -426,7 +426,7 @@ export default function CartPage() {
                                     
                                     {/* FeastPoints Toggle */}
                                     {availablePoints > 0 && (
-                                        <div className="flex items-center justify-between mt-4 p-4 rounded-xl border border-theme-gold/30 bg-theme-gold/5">
+                                        <div className="flex items-center justify-between mt-4 p-4 rounded-none border border-theme-gold/30 bg-theme-gold/5">
                                             <div className="flex items-center gap-3">
                                                 <div className="w-10 h-10 rounded-full bg-theme-gold/20 flex items-center justify-center">
                                                     <Wallet className="w-5 h-5 text-theme-gold" />
@@ -456,11 +456,11 @@ export default function CartPage() {
                                     <div className="h-px bg-theme-border/50 my-6"></div>
                                     <div className="flex justify-between items-end text-white/90">
                                         <span className="font-bold text-xl">Total</span>
-                                        <span className="text-4xl font-heading font-extrabold text-gradient">₹{total.toFixed(2)}</span>
+                                        <span className="text-4xl font-heading font-heading font-light text-gradient">₹{total.toFixed(2)}</span>
                                     </div>
                                 </div>
                                 
-                                <div className="flex items-center gap-3 text-sm text-green-400 bg-green-500/10 p-4 rounded-xl border border-green-500/20 mb-8 backdrop-blur-md">
+                                <div className="flex items-center gap-3 text-sm text-theme-gold bg-theme-gold/10 p-4 rounded-none border border-theme-gold/20 mb-8 backdrop-blur-md">
                                     <ShieldCheck className="w-5 h-5" /> 100% Secure Checkout process
                                 </div>
                                 
@@ -499,13 +499,13 @@ export default function CartPage() {
                     <motion.div 
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="bg-theme-bg border border-theme-gold/30 p-10 rounded-[3rem] max-w-md w-full text-center relative overflow-hidden"
+                        className="bg-theme-bg border border-theme-gold/30 p-10 rounded-none max-w-md w-full text-center relative overflow-hidden"
                     >
                         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-theme-gold/10 to-transparent pointer-events-none" />
-                        <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <CheckCircle className="w-12 h-12 text-green-500" />
+                        <div className="w-24 h-24 bg-theme-gold/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <CheckCircle className="w-12 h-12 text-theme-gold" />
                         </div>
-                        <h2 className="text-3xl font-heading font-extrabold mb-2 text-white">Order Placed!</h2>
+                        <h2 className="text-3xl font-heading font-heading font-light mb-2 text-white">Order Placed!</h2>
                         <p className="text-theme-text/70 mb-8">
                             Your delicious meal is being prepared and will be delivered to you shortly.
                         </p>
@@ -525,7 +525,7 @@ export default function CartPage() {
                     <motion.div 
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="bg-theme-bg border border-theme-gold/30 p-8 md:p-10 rounded-[3rem] max-w-lg w-full relative overflow-hidden"
+                        className="bg-theme-bg border border-theme-gold/30 p-8 md:p-10 rounded-none max-w-lg w-full relative overflow-hidden"
                     >
                         <button onClick={() => setShowGroupInfo(false)} className="absolute top-6 right-6 text-white/50 hover:text-white">
                             ✕
@@ -535,7 +535,7 @@ export default function CartPage() {
                         <div className="w-16 h-16 bg-theme-gold/20 rounded-full flex items-center justify-center mb-6">
                             <Users className="w-8 h-8 text-theme-gold" />
                         </div>
-                        <h2 className="text-3xl font-heading font-extrabold mb-4 text-white">How Group Orders Work</h2>
+                        <h2 className="text-3xl font-heading font-heading font-light mb-4 text-white">How Group Orders Work</h2>
                         <p className="text-theme-text/70 mb-8">
                             Ordering for the whole team or a party? It's simple!
                         </p>

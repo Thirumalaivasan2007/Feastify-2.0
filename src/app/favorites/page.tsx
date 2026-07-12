@@ -63,13 +63,13 @@ export default function FavoritesPage() {
         <main className="min-h-screen bg-theme-bg text-theme-text pt-24 pb-12">
             <Navbar />
             <div className="max-w-7xl mx-auto px-6">
-                <h1 className="text-4xl font-heading font-extrabold mb-8 flex items-center gap-4">
+                <h1 className="text-4xl font-heading font-heading font-light mb-8 flex items-center gap-4">
                     <Heart className="w-10 h-10 text-theme-gold fill-theme-gold" />
                     My <span className="text-gradient">Favorites</span>
                 </h1>
 
                 {favorites.length === 0 ? (
-                    <div className="text-center py-20 glass-panel rounded-[2rem] border border-theme-border/50">
+                    <div className="text-center py-20 glass-panel rounded-none border border-theme-border/50">
                         <Heart className="w-16 h-16 mx-auto mb-4 text-white/10" />
                         <h2 className="text-2xl font-bold text-white/70 mb-4">No favorites yet</h2>
                         <p className="text-theme-text/50 mb-8">You haven't saved any items to your wishlist.</p>
@@ -85,7 +85,7 @@ export default function FavoritesPage() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: idx * 0.1 }}
-                                className="glass-card rounded-[2rem] overflow-hidden group border border-theme-border/50 hover:border-theme-gold/50 transition-all duration-500 hover:-translate-y-2 relative"
+                                className="glass-card rounded-none overflow-hidden group border border-theme-border/50 hover:border-theme-gold/50 transition-all duration-500 hover:-translate-y-2 relative"
                             >
                                 <button 
                                     onClick={(e) => {
@@ -107,7 +107,7 @@ export default function FavoritesPage() {
                                     </div>
                                     <p className="text-sm text-theme-text/60 line-clamp-2 mb-4">{food.description}</p>
                                     <div className="flex justify-between items-center mt-auto">
-                                        <div className="text-xl font-extrabold text-theme-gold">₹{food.price.toFixed(2)}</div>
+                                        <div className="text-xl font-light text-theme-gold">₹{food.price.toFixed(2)}</div>
                                         <Link href={`/details?id=${food._id}`} className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-theme-text/80 group-hover:bg-theme-gold group-hover:text-[#040A07] group-hover:border-theme-gold transition-all duration-300">
                                             <ArrowRight className="w-5 h-5" />
                                         </Link>
