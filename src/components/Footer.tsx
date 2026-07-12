@@ -119,8 +119,8 @@ export default function Footer() {
                         &copy; {new Date().getFullYear()} Feastify Inc. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
-                        <a href="#!" onClick={handleComingSoon} className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Privacy Policy</a>
-                        <a href="#!" onClick={handleComingSoon} className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Terms of Service</a>
+                        <Link href="/privacy" className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Privacy Policy</Link>
+                        <Link href="/terms" className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Terms of Service</Link>
                         <a href="#!" onClick={handleComingSoon} className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Cookie Policy</a>
                     </div>
                 </div>
