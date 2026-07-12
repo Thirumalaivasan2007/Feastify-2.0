@@ -174,7 +174,7 @@ export default function Navbar() {
                         )}
                         
                         {/* Desktop Action Button */}
-                        {!user ? (
+                        {pathname === '/' || !user ? (
                             <button 
                                 onClick={() => router.push('/login')} 
                                 className="hidden lg:block bg-theme-gold text-theme-bg px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-[#d4af37] transition-all duration-300 rounded-none gold-shine shadow-md"
