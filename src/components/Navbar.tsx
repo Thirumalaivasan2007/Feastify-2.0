@@ -92,12 +92,19 @@ export default function Navbar() {
                 
                 {/* CENTER - NAVIGATION (DESKTOP) */}
                 <div className="hidden lg:flex items-center space-x-12">
-                    {user?.role !== 'admin' && user?.role !== 'driver' && (
-                        <Link href="/menu" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
-                            Menu
-                        </Link>
-                    )}
-                    {user?.role === 'admin' ? (
+                    {pathname === '/' ? (
+                        <>
+                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Privacy Policy
+                            </Link>
+                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Terms of Service
+                            </Link>
+                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Cookie Policy
+                            </Link>
+                        </>
+                    ) : user?.role === 'admin' ? (
                         <Link href="/admin" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
                             Admin Dashboard
                         </Link>
@@ -107,6 +114,9 @@ export default function Navbar() {
                         </Link>
                     ) : user ? (
                         <>
+                            <Link href="/menu" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Menu
+                            </Link>
                             <Link href="/favorites" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
                                 Favorites
                             </Link>
@@ -120,24 +130,12 @@ export default function Navbar() {
                                 <Star className="w-3 h-3" /> Social
                             </Link>
                         </>
-                    ) : (
-                        <>
-                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
-                                Privacy Policy
-                            </Link>
-                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
-                                Terms of Service
-                            </Link>
-                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
-                                Cookie Policy
-                            </Link>
-                        </>
-                    )}
+                    ) : null}
                 </div>
                 
                 {/* RIGHT - ACTIONS */}
                 <div className="flex items-center space-x-4 md:space-x-6 z-50">
-                    {currentTime && (
+                    {currentTime && pathname !== '/' && (
                         <div className="hidden md:flex flex-col items-end text-theme-text/80 mr-2 border-r border-white/10 pr-4">
                             <span className="text-base font-mono font-extrabold tracking-widest text-theme-gold">{currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</span>
                             <span className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-theme-text/60">{currentTime.toLocaleDateString()}</span>
@@ -151,7 +149,7 @@ export default function Navbar() {
                         {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
                     </button>
                     
-                    {user && (
+                    {user && pathname !== '/' && (
                         <button 
                             onClick={() => {
                                 localStorage.removeItem('user');
@@ -164,7 +162,7 @@ export default function Navbar() {
                         </button>
                     )}
                     
-                    {user?.role !== 'admin' && user?.role !== 'driver' && (
+                    {user?.role !== 'admin' && user?.role !== 'driver' && pathname !== '/' && (
                         <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)} className="relative p-2.5 rounded-full border border-theme-gold/20 bg-theme-bg/40 text-theme-text hover:text-theme-gold hover:border-theme-gold/50 transition-all duration-300 group">
                                 <ShoppingBag className="w-4 h-4 text-theme-text/70 group-hover:text-theme-gold transition-colors" />
                                 {cartCount > 0 && (
