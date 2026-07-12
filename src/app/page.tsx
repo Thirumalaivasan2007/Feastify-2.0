@@ -57,51 +57,57 @@ export default function UltraPremiumLanding() {
                 {/* Hero Content */}
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     {/* Left Column - Text */}
-                    <div className="text-left">
+                    <div className="text-left flex flex-col justify-center">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.2 }}
-                            className="flex items-center gap-4 mb-6 text-theme-gold uppercase tracking-widest text-xs font-semibold"
+                            className="flex items-center space-x-2 mb-4"
                         >
-                            <span>Established 2024</span>
-                            <div className="w-12 h-[1px] bg-theme-gold/50"></div>
-                            <span>Premium Dining</span>
+                            <span className="text-[10px] uppercase tracking-widest text-theme-gold font-bold">ESTABLISHED 2024</span>
+                            <div className="w-8 h-[1px] bg-theme-gold/30"></div>
+                            <span className="text-[10px] uppercase tracking-widest text-white/60">PREMIUM DINING</span>
                         </motion.div>
                         
                         <motion.h1 
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.4 }}
-                            className="text-6xl md:text-7xl lg:text-8xl font-heading tracking-tight leading-[1.1] mb-8"
+                            className="font-heading text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.05] mb-6"
                         >
-                            <span className="text-white block font-medium">Savor the</span>
-                            <span className="text-theme-gold italic block font-normal drop-shadow-[0_0_15px_rgba(212,184,134,0.4)]">Pure Artistry</span>
-                            <span className="text-white block font-medium">of Feastify</span>
+                            Savor the <br />
+                            <span className="text-theme-gold italic font-medium drop-shadow-[0_0_15px_rgba(212,184,134,0.4)]">Pure Artistry</span> <br />
+                            of Feastify
                         </motion.h1>
                         
                         <motion.p 
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 1, delay: 0.6 }}
-                            className="text-lg md:text-xl font-sans font-light text-white/70 mb-12 max-w-xl leading-relaxed"
+                            className="font-sans text-sm md:text-base text-white/80 font-light leading-relaxed max-w-lg mb-8 md:mb-10"
                         >
-                            Feastify delivers Michelin-star culinary artistry straight to your door, masterfully prepared to unlock rich complex flavors. Personalize your experience in our interactive 3D portal.
+                            Feastify delivers Michelin-star culinary artistry straight to your door, masterfully prepared to unlock rich complex aromas. Personalize your experience in our interactive 3D portal.
                         </motion.p>
                         
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 1, delay: 0.8, type: "spring", bounce: 0.5 }}
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 1, delay: 0.8 }}
+                            className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-5"
                         >
                             <button 
-                                onClick={() => router.push('/login')}
-                                className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-gradient-to-r from-theme-gold-dark via-theme-gold-light to-theme-gold text-[#040A07] rounded-full font-bold text-lg overflow-hidden transition-all duration-500 hover:scale-105 shadow-[0_0_20px_rgba(212,184,134,0.3)] hover:shadow-[0_0_40px_rgba(243,229,200,0.5)]"
+                                onClick={() => router.push('/menu')}
+                                className="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-[#040A07] bg-theme-gold hover:brightness-110 transition-all duration-300 shadow-md font-sans"
                             >
-                                <span className="relative z-10">Enter the Portal</span>
-                                <div className="relative z-10 w-10 h-10 rounded-full bg-[#040A07] flex items-center justify-center group-hover:translate-x-2 transition-transform duration-300">
-                                    <ArrowRight className="w-5 h-5 text-theme-gold" />
-                                </div>
+                                Explore Collection
+                            </button>
+                            <button 
+                                onClick={() => {
+                                    // Could trigger a 3D mode in the future
+                                }}
+                                className="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-white border border-theme-gold/40 hover:border-theme-gold hover:bg-theme-gold/5 transition-all duration-300 font-sans"
+                            >
+                                3D Customizer
                             </button>
                         </motion.div>
                     </div>
