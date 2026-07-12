@@ -4,8 +4,11 @@ import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles, Zap, Utensils, Users, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
 
 import Navbar from '@/components/Navbar';
+
+const Hero3D = dynamic(() => import('@/components/Hero3D'), { ssr: false });
 
 export default function UltraPremiumLanding() {
     const router = useRouter();
@@ -101,32 +104,9 @@ export default function UltraPremiumLanding() {
                     </div>
 
                     {/* Right Column - 3D Motion Element */}
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1.2, delay: 0.6, type: "spring" }}
-                        className="relative hidden lg:flex items-center justify-center"
-                    >
-                        {/* Floating animation container */}
-                        <motion.div
-                            animate={{ 
-                                y: [-15, 15, -15],
-                                rotate: [-2, 2, -2]
-                            }}
-                            transition={{
-                                duration: 6,
-                                repeat: Infinity,
-                                ease: "easeInOut"
-                            }}
-                            className="relative w-full max-w-[500px] aspect-square"
-                        >
-                            <img 
-                                src="/hero-food.png" 
-                                alt="Premium 3D Food" 
-                                className="w-full h-full object-contain mix-blend-lighten opacity-90 drop-shadow-[0_0_50px_rgba(212,184,134,0.15)]"
-                            />
-                        </motion.div>
-                    </motion.div>
+                    <div className="relative hidden lg:flex items-center justify-center w-full h-[500px]">
+                        <Hero3D />
+                    </div>
                 </div>
                 
                 {/* Scroll Indicator */}
