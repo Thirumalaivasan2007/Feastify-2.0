@@ -46,30 +46,58 @@ function RotatingContainer() {
         <meshStandardMaterial color="#1a1a1a" metalness={0.5} roughness={0.8} />
       </mesh>
 
-      {/* Feastify Logo Front */}
-      <Text
-        position={[0, 0, 1.72]} // Placed right on the surface
-        fontSize={0.5}
-        color="#d4af37"
-        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-        anchorX="center"
-        anchorY="middle"
-      >
-        FEASTIFY
-      </Text>
-      
-      {/* Feastify Logo Back */}
-      <Text
-        position={[0, 0, -1.72]} 
-        rotation={[0, Math.PI, 0]}
-        fontSize={0.5}
-        color="#d4af37"
-        font="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hjp-Ek-_EeA.woff"
-        anchorX="center"
-        anchorY="middle"
-      >
-        FEASTIFY
-      </Text>
+      {/* Front Logo Badge */}
+      <group position={[0, 0, 1.73]}>
+        {/* Badge Background to look like a stamp/plate */}
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.6, 0.6, 0.04, 32]} />
+          <meshStandardMaterial color="#040A07" metalness={0.9} roughness={0.1} />
+        </mesh>
+        
+        {/* Gold Outer Ring */}
+        <mesh position={[0, 0, 0.02]}>
+          <torusGeometry args={[0.45, 0.02, 16, 64]} />
+          <meshStandardMaterial color="#d4af37" metalness={1} roughness={0.1} />
+        </mesh>
+
+        {/* Gold 'F' */}
+        <Text
+          position={[0, 0, 0.025]}
+          fontSize={0.55}
+          color="#d4af37"
+          font="https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PweD.woff"
+          fontWeight={700}
+          anchorX="center"
+          anchorY="middle"
+        >
+          F
+        </Text>
+      </group>
+
+      {/* Back Logo Badge */}
+      <group position={[0, 0, -1.73]} rotation={[0, Math.PI, 0]}>
+        <mesh rotation={[Math.PI / 2, 0, 0]}>
+          <cylinderGeometry args={[0.6, 0.6, 0.04, 32]} />
+          <meshStandardMaterial color="#040A07" metalness={0.9} roughness={0.1} />
+        </mesh>
+        
+        <mesh position={[0, 0, 0.02]}>
+          <torusGeometry args={[0.45, 0.02, 16, 64]} />
+          <meshStandardMaterial color="#d4af37" metalness={1} roughness={0.1} />
+        </mesh>
+
+        <Text
+          position={[0, 0, 0.025]}
+          fontSize={0.55}
+          color="#d4af37"
+          font="https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PweD.woff"
+          fontWeight={700}
+          anchorX="center"
+          anchorY="middle"
+        >
+          F
+        </Text>
+      </group>
     </group>
   );
 }
