@@ -33,12 +33,12 @@ export default function CartPage() {
     useEffect(() => {
         const userStr = localStorage.getItem('user');
         if (!userStr) {
-            router.push('/');
+            setCart(JSON.parse(localStorage.getItem('cart') || '[]'));
             return;
         }
         const u = JSON.parse(userStr);
-        if (u.role === 'admin') {
-            router.push('/admin');
+        if (u.role === 'admin' || u.role === 'driver') {
+            router.push(u.role === 'admin' ? '/admin' : '/driver');
             return;
         }
         setUser(u);
@@ -118,6 +118,11 @@ export default function CartPage() {
     const [newOrderId, setNewOrderId] = useState<string | null>(null);
 
     const handleCheckout = async () => {
+        if (!user) {
+            toast.error('Please log in to checkout');
+            router.push('/');
+            return;
+        }
         if (!phone.trim() || !address.trim()) return toast.error('Please enter delivery details');
         if (!deliveryCoordinates) return toast.error('Please pin your exact delivery location on the map');
         if (!paymentMethod) {
@@ -401,15 +406,24 @@ export default function CartPage() {
                                     <ShieldCheck className="w-5 h-5" /> 100% Secure Checkout process
                                 </div>
                                 
-                                <button 
-                                    onClick={handleCheckout}
-                                    disabled={isProcessing}
-                                    className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
-                                >
-                                    {isProcessing ? 'Processing...' : (
-                                        <>Place Order <ArrowRight className="w-5 h-5" /></>
-                                    )}
-                                </button>
+                                {user ? (
+                                    <button 
+                                        onClick={handleCheckout}
+                                        disabled={isProcessing}
+                                        className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                                    >
+                                        {isProcessing ? 'Processing...' : (
+                                            <>Place Order <ArrowRight className="w-5 h-5" /></>
+                                        )}
+                                    </button>
+                                ) : (
+                                    <button 
+                                        onClick={() => router.push('/')}
+                                        className="btn-primary w-full flex items-center justify-center gap-2"
+                                    >
+                                        Log In to Checkout <ArrowRight className="w-5 h-5" />
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>
