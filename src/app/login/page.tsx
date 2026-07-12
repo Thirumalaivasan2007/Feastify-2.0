@@ -137,8 +137,8 @@ export default function LandingPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                    <h1 className="text-6xl lg:text-8xl font-heading font-extrabold mb-6 tracking-tight">
-                        Feastify<span className="text-theme-gold">.</span>
+                    <h1 className="text-5xl md:text-7xl font-heading font-extrabold tracking-tight text-white mb-6">
+                        Feastify
                     </h1>
                     <p className="text-xl lg:text-2xl text-white/70 font-light max-w-md">
                         Experience the art of flavor, delivered straight to your door with unparalleled speed.

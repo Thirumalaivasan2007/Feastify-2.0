@@ -52,7 +52,7 @@ export default function SplashScreen() {
                             className="relative"
                         >
                             <h1 className="text-5xl md:text-7xl font-heading font-extrabold tracking-tight text-white mb-8">
-                                Feastify<span className="text-theme-gold">.</span>
+                                Feastify
                             </h1>
                             
                             {/* Minimalist Spinner */}
