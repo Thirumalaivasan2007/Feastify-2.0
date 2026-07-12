@@ -23,6 +23,16 @@ export default function UltraPremiumLanding() {
 
     return (
         <main ref={targetRef} className="bg-[#040A07] text-white overflow-hidden selection:bg-theme-gold selection:text-black font-sans">
+            {/* Top Right Header */}
+            <header className="absolute top-0 right-0 z-50 p-6 md:p-8">
+                <button 
+                    onClick={() => router.push('/login')} 
+                    className="bg-theme-gold text-theme-bg px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-[#d4af37] transition-all duration-300 rounded-none gold-shine shadow-md"
+                >
+                    Sign In
+                </button>
+            </header>
+
             {/* HERO SECTION */}
             <section className="relative h-screen flex flex-col items-center justify-center pt-20">
                 {/* Parallax Background Video/Image */}
@@ -65,7 +75,7 @@ export default function UltraPremiumLanding() {
                         transition={{ duration: 1, delay: 0.4 }}
                         className="text-6xl md:text-8xl lg:text-9xl font-heading font-extrabold tracking-tighter leading-[0.9] mb-8"
                     >
-                        Feastify<span className="text-theme-gold">.</span>
+                        Feastify
                     </motion.h1>
                     
                     <motion.p 
