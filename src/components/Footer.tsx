@@ -66,7 +66,7 @@ export default function Footer() {
 
                     {/* Quick Links */}
                     <div>
-                        <h3 className="text-xl font-bold font-heading text-white mb-6">Quick Links</h3>
+                        <h3 className="text-xs font-bold font-sans tracking-widest uppercase text-theme-gold mb-6">QUICK LINKS</h3>
                         <ul className="flex flex-col gap-4">
                             <li><Link href="/menu" className="text-theme-text/60 hover:text-theme-gold transition-colors text-sm flex items-center gap-2 group"><ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" /> Home</Link></li>
                             <li><Link href="/menu" className="text-theme-text/60 hover:text-theme-gold transition-colors text-sm flex items-center gap-2 group"><ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" /> Our Menu</Link></li>
@@ -77,7 +77,7 @@ export default function Footer() {
 
                     {/* Contact Info */}
                     <div>
-                        <h3 className="text-xl font-bold font-heading text-white mb-6">Contact Us</h3>
+                        <h3 className="text-xs font-bold font-sans tracking-widest uppercase text-theme-gold mb-6">CONTACT US</h3>
                         <ul className="flex flex-col gap-5">
                             <li className="flex items-start gap-4">
                                 <MapPin className="w-5 h-5 text-theme-gold flex-shrink-0 mt-0.5" />
@@ -96,7 +96,7 @@ export default function Footer() {
 
                     {/* Newsletter */}
                     <div>
-                        <h3 className="text-xl font-bold font-heading text-white mb-6">Newsletter</h3>
+                        <h3 className="text-xs font-bold font-sans tracking-widest uppercase text-theme-gold mb-6">SUBSCRIBE TO OUR GAZETTE</h3>
                         <p className="text-theme-text/60 text-sm mb-4 leading-relaxed">
                             Subscribe to receive exclusive offers, updates, and culinary news.
                         </p>
