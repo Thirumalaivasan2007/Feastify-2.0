@@ -65,16 +65,15 @@ function MenuContent() {
     useEffect(() => {
         // Auth check
         const userStr = localStorage.getItem('user');
-        if (!userStr) {
-            router.push('/');
-            return;
+        let parsedUser = null;
+        if (userStr) {
+            parsedUser = JSON.parse(userStr);
+            if (parsedUser.role === 'admin' || parsedUser.role === 'driver') {
+                router.push(parsedUser.role === 'admin' ? '/admin' : '/driver');
+                return;
+            }
+            setUser(parsedUser);
         }
-        const parsedUser = JSON.parse(userStr);
-        if (parsedUser.role === 'admin') {
-            router.push('/admin');
-            return;
-        }
-        setUser(parsedUser);
 
         const fetchData = async () => {
             try {
@@ -88,7 +87,7 @@ function MenuContent() {
                 setCategories(catData);
                 
                 // Fetch favorites
-                if (parsedUser.email) {
+                if (parsedUser?.email) {
                     const favRes = await fetch(`/api/favorites?email=${parsedUser.email}`);
                     const favData = await favRes.json();
                     if (favData.success) {
@@ -133,7 +132,10 @@ function MenuContent() {
 
     const toggleFavorite = async (foodId: string, e: any) => {
         e.stopPropagation();
-        if (!user) return;
+        if (!user) {
+            toast.error('Please log in to add favorites');
+            return;
+        }
         
         // Optimistic UI update
         const isCurrentlyFavorite = favorites.includes(foodId);

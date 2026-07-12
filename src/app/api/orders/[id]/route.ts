@@ -33,12 +33,15 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
     try {
         await connectDB();
-        const { orderStatus, driverId, driverName } = await req.json();
+        const { orderStatus, driverId, driverName, kdsDetails } = await req.json();
         const { id } = await params;
         
-        let updateData: any = { orderStatus };
+        let updateData: any = {};
+        if (orderStatus) updateData.orderStatus = orderStatus;
         if (driverId) updateData.driverId = driverId;
         if (driverName) updateData.driverName = driverName;
+        if (kdsDetails) updateData.kdsDetails = kdsDetails;
+        
         if (orderStatus === 'Delivered') {
             updateData.deliveredAt = new Date();
         }

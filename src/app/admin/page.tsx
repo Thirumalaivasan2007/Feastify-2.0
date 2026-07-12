@@ -80,20 +80,28 @@ export default function AdminDashboard() {
     };
 
     // --- Order Logic ---
-    const updateOrderStatus = async (orderId: string, status: string) => {
+    const updateOrderStatus = async (orderId: string, status?: string, kdsDetails?: any) => {
         try {
+            const body: any = {};
+            if (status) body.orderStatus = status;
+            if (kdsDetails) body.kdsDetails = kdsDetails;
+
             const res = await fetch(`/api/orders/${orderId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ orderStatus: status })
+                body: JSON.stringify(body)
             });
             const data = await res.json();
             if (data.success) {
-                setOrders(orders.map(o => o._id === orderId ? { ...o, orderStatus: status } : o));
-                toast.success('Status updated successfully');
+                setOrders(orders.map(o => o._id === orderId ? { 
+                    ...o, 
+                    ...(status && { orderStatus: status }),
+                    ...(kdsDetails && { kdsDetails: { ...o.kdsDetails, ...kdsDetails } })
+                } : o));
+                if (status) toast.success('Status updated successfully');
                 fetchAdminData();
             } else {
-                toast.error('Failed to update status');
+                toast.error('Failed to update order');
             }
         } catch (err) {
             console.error(err);

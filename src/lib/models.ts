@@ -102,7 +102,12 @@ const orderSchema = new Schema({
         sender: { type: String }, // 'customer', 'driver', 'admin'
         message: { type: String },
         timestamp: { type: Date, default: Date.now }
-    }]
+    }],
+    kdsDetails: {
+        prepStartTime: { type: Date, default: null },
+        estimatedPrepTime: { type: Number, default: 0 }, // in minutes
+        completedItems: [{ type: String }] // array of cart item indices
+    }
 });
 
 export const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);
