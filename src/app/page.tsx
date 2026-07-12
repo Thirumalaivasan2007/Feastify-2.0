@@ -5,6 +5,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Sparkles, Zap, Utensils, Users, Smartphone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
+import Navbar from '@/components/Navbar';
+
 export default function UltraPremiumLanding() {
     const router = useRouter();
     const targetRef = useRef<HTMLDivElement>(null);
@@ -23,25 +25,7 @@ export default function UltraPremiumLanding() {
 
     return (
         <main ref={targetRef} className="bg-[#040A07] text-white overflow-hidden selection:bg-theme-gold selection:text-black font-sans">
-            {/* Top Navigation Bar */}
-            <header className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between p-6 md:px-12 md:py-8">
-                <div className="flex items-center gap-2">
-                    <span className="text-xl font-heading font-bold text-white tracking-wide">Feastify</span>
-                </div>
-                
-                <nav className="hidden md:flex items-center gap-8">
-                    <a href="#" className="text-xs font-semibold uppercase tracking-[0.15em] text-white/70 hover:text-theme-gold transition-colors">Privacy Policy</a>
-                    <a href="#" className="text-xs font-semibold uppercase tracking-[0.15em] text-white/70 hover:text-theme-gold transition-colors">Terms of Service</a>
-                    <a href="#" className="text-xs font-semibold uppercase tracking-[0.15em] text-white/70 hover:text-theme-gold transition-colors">Cookie Policy</a>
-                </nav>
-
-                <button 
-                    onClick={() => router.push('/login')} 
-                    className="bg-theme-gold text-theme-bg px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-[#d4af37] transition-all duration-300 rounded-none gold-shine shadow-md"
-                >
-                    Sign In
-                </button>
-            </header>
+            <Navbar />
 
             {/* HERO SECTION */}
             <section className="relative h-screen flex flex-col items-center justify-center pt-20">

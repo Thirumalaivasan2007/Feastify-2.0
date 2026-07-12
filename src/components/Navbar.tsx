@@ -120,7 +120,19 @@ export default function Navbar() {
                                 <Star className="w-3 h-3" /> Social
                             </Link>
                         </>
-                    ) : null}
+                    ) : (
+                        <>
+                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Privacy Policy
+                            </Link>
+                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Terms of Service
+                            </Link>
+                            <Link href="#" className="text-[11px] font-normal uppercase tracking-[0.15em] text-theme-text/80 hover:text-[#d4af37] transition-colors duration-300 relative py-1">
+                                Cookie Policy
+                            </Link>
+                        </>
+                    )}
                 </div>
                 
                 {/* RIGHT - ACTIONS */}
@@ -163,8 +175,15 @@ export default function Navbar() {
                             </Link>
                         )}
                         
-                        {/* Desktop Order Now Button */}
-                        {user?.role !== 'admin' && user?.role !== 'driver' && (
+                        {/* Desktop Action Button */}
+                        {!user ? (
+                            <button 
+                                onClick={() => router.push('/login')} 
+                                className="hidden lg:block bg-theme-gold text-theme-bg px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-[#d4af37] transition-all duration-300 rounded-none gold-shine shadow-md"
+                            >
+                                Sign In
+                            </button>
+                        ) : user.role !== 'admin' && user.role !== 'driver' && (
                             <button 
                                 onClick={() => router.push('/menu')} 
                                 className="hidden lg:block bg-theme-gold text-theme-bg px-6 py-2.5 text-xs font-semibold tracking-widest uppercase hover:bg-[#d4af37] transition-all duration-300 rounded-none gold-shine shadow-md"
