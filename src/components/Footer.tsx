@@ -122,13 +122,13 @@ export default function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-                    <p className="text-theme-text/40 text-sm">
+                    <p className="text-theme-text/40 text-xs uppercase tracking-widest">
                         &copy; {new Date().getFullYear()} Feastify Inc. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
-                        <Link href="/privacy" className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Privacy Policy</Link>
-                        <Link href="/terms" className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Terms of Service</Link>
-                        <a href="#!" onClick={handleComingSoon} className="text-theme-text/40 hover:text-theme-gold text-sm transition-colors">Cookie Policy</a>
+                        <Link href="/privacy" className="text-theme-text/40 hover:text-theme-gold text-xs uppercase tracking-widest transition-colors">Privacy Policy</Link>
+                        <Link href="/terms" className="text-theme-text/40 hover:text-theme-gold text-xs uppercase tracking-widest transition-colors">Terms of Service</Link>
+                        <a href="#!" onClick={handleComingSoon} className="text-theme-text/40 hover:text-theme-gold text-xs uppercase tracking-widest transition-colors">Cookie Policy</a>
                     </div>
                 </div>
             </div>
