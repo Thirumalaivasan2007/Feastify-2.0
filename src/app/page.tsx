@@ -97,7 +97,7 @@ export default function UltraPremiumLanding() {
                         >
                             <button 
                                 onClick={() => router.push('/menu')}
-                                className="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-[#040A07] bg-theme-gold hover:brightness-110 transition-all duration-300 shadow-md font-sans"
+                                className="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-[#040A07] bg-theme-gold hover:bg-[#d4af37] transition-all duration-300 shadow-md font-sans rounded-none gold-shine"
                             >
                                 Explore Collection
                             </button>
@@ -105,7 +105,7 @@ export default function UltraPremiumLanding() {
                                 onClick={() => {
                                     // Could trigger a 3D mode in the future
                                 }}
-                                className="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-white border border-theme-gold/40 hover:border-theme-gold hover:bg-theme-gold/5 transition-all duration-300 font-sans"
+                                className="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-white border border-theme-gold/40 hover:border-theme-gold hover:bg-theme-gold/5 transition-all duration-300 font-sans rounded-none"
                             >
                                 3D Customizer
                             </button>
