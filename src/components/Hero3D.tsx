@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Text, Float, ContactShadows, PresentationControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -106,28 +106,30 @@ export default function Hero3D() {
   return (
     <div className="w-full h-full min-h-[500px]">
       <Canvas shadows camera={{ position: [0, 2, 7], fov: 45 }}>
-        {/* Cinematic Lighting */}
-        <ambientLight intensity={0.5} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="#d4af37" />
-        
-        {/* Environment map for realistic reflections */}
-        <Environment preset="city" />
+        <Suspense fallback={null}>
+          {/* Cinematic Lighting */}
+          <ambientLight intensity={0.5} />
+          <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
+          <pointLight position={[-10, -10, -10]} intensity={1} color="#d4af37" />
+          
+          {/* Environment map for realistic reflections */}
+          <Environment preset="city" />
 
-        {/* PresentationControls allows the user to click and drag to look around the object slightly */}
-        <PresentationControls 
-          global 
-          rotation={[0.13, 0.1, 0]} 
-          polar={[-0.4, 0.2]} 
-          azimuth={[-1, 0.75]}
-        >
-          <Float speed={2} rotationIntensity={0.2} floatIntensity={1.5} floatingRange={[-0.2, 0.2]}>
-            <RotatingContainer />
-          </Float>
-        </PresentationControls>
+          {/* PresentationControls allows the user to click and drag to look around the object slightly */}
+          <PresentationControls 
+            global 
+            rotation={[0.13, 0.1, 0]} 
+            polar={[-0.4, 0.2]} 
+            azimuth={[-1, 0.75]}
+          >
+            <Float speed={2} rotationIntensity={0.2} floatIntensity={1.5} floatingRange={[-0.2, 0.2]}>
+              <RotatingContainer />
+            </Float>
+          </PresentationControls>
 
-        {/* Soft shadow directly underneath the object */}
-        <ContactShadows position={[0, -1.8, 0]} opacity={0.4} scale={10} blur={2} far={4} color="#d4af37" />
+          {/* Soft shadow directly underneath the object */}
+          <ContactShadows position={[0, -1.8, 0]} opacity={0.4} scale={10} blur={2} far={4} color="#d4af37" />
+        </Suspense>
       </Canvas>
     </div>
   );
